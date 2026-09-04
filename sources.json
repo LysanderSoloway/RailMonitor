@@ -1,0 +1,72 @@
+[
+  {
+    "name": "百度新闻",
+    "url": "https://news.baidu.com/s?tn=news&word=TOD",
+    "select": "div.result a",
+    "limit": 15,
+    "pages": 2
+  },
+  {
+    "name": "百度新闻-地铁",
+    "url": "https://news.baidu.com/s?tn=news&word=%E5%9C%B0%E9%93%81",
+    "select": "div.result a",
+    "limit": 15,
+    "pages": 2
+  },
+  {
+    "name": "百度新闻-城际",
+    "url": "https://news.baidu.com/s?tn=news&word=%E5%9F%8E%E9%99%85",
+    "select": "div.result a",
+    "limit": 15,
+    "pages": 2
+  },
+  {
+    "name": "百度新闻-国铁",
+    "url": "https://news.baidu.com/s?tn=news&word=%E5%9B%BD%E9%93%81",
+    "select": "div.result a",
+    "limit": 15,
+    "pages": 2
+  },
+  {
+    "name": "360新闻-地铁TOD",
+    "url": "https://news.so.com/ns?q=%E5%9C%B0%E9%93%81%20TOD",
+    "select": "li.res-list a",
+    "limit": 12,
+    "pages": 2
+  },
+  {
+    "name": "360新闻-城际",
+    "url": "https://news.so.com/ns?q=%E5%9F%8E%E9%99%85",
+    "select": "li.res-list a",
+    "limit": 12,
+    "pages": 2
+  },
+  {
+    "name": "搜狗新闻-轨道交通",
+    "url": "https://news.sogou.com/news?query=%E8%BD%A8%E9%81%93%E4%BA%A4%E9%80%9A",
+    "select": "div.news-list h3 a",
+    "limit": 12,
+    "pages": 2
+  },
+  {
+    "name": "中国TOD网",
+    "url": "https://www.chinatod.com.cn/index.php?m=content&c=index&a=lists&catid=36",
+    "select": "div.list_box ul li a",
+    "limit": 10,
+    "pages": 1
+  },
+  {
+    "name": "中国轨道交通网",
+    "url": "https://www.rail-transit.com/news/",
+    "select": "div.news_list ul li a",
+    "limit": 10,
+    "pages": 1
+  },
+  {
+    "name": "人民铁道网",
+    "url": "https://www.peoplerail.com/rail/show-474-1-1.html",
+    "select": "ul.list li a",
+    "limit": 8,
+    "pages": 1
+  }
+]
