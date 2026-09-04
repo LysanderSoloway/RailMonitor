@@ -1,0 +1,2246 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>轨道交通综合开发新闻报道监测</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+    <style>
+        :root {
+            --primary: #1a5a7a;
+            --primary-light: #2a7a9a;
+            --primary-dark: #0e3a52;
+            --accent: #4a9fc7;
+            --accent-hover: #5ab0d5;
+            --accent-light: #7abdd5;
+            --accent-pale: #c8e4f0;
+            --accent-bg: #e8f4f8;
+            --red: #c05a4a;
+            --green: #4a9a7a;
+            --orange: #c08a4a;
+            --purple: #7a5a9a;
+            --ink: #1a3a4a;
+            --ink-light: #2a5a6a;
+            --muted: #4a6a7a;
+            --muted-light: #7a9aaa;
+            --bg: #e8f4f8;
+            --card: #ffffff;
+            --card-hover: #f4fafc;
+            --border: #c8dce8;
+            --shadow-sm: 0 2px 8px rgba(26,90,122,0.08);
+            --shadow: 0 4px 16px rgba(26,90,122,0.12);
+            --shadow-lg: 0 8px 32px rgba(26,90,122,0.18);
+            --radius: 12px;
+            --radius-sm: 8px;
+            --table-stripe: #f4fafc;
+            --table-hover: #e8f2f8;
+            --summary-bg: #f0f6fa;
+            --chart-track: #dce8f0;
+            --hero-bg: #1a5a7a;
+            --hero-text: #ffffff;
+            --hero-sub: rgba(255,255,255,0.8);
+            --badge-world: #4a9fc7;
+            --badge-national: #c05a4a;
+            --badge-guangdong: #4a9a7a;
+            --badge-guangzhou: #c08a4a;
+            --badge-world-bg: #dcecf4;
+            --badge-national-bg: #f5e4e0;
+            --badge-guangdong-bg: #e0f0e8;
+            --badge-guangzhou-bg: #f5ece0;
+            --stat-color: #1a3a4a;
+            --tag-bg: #dce8f0;
+            --tag-color: #1a5a7a;
+            --modal-overlay: rgba(0,0,0,0.4);
+            --modal-bg: #ffffff;
+            --type-progress: #0e7a5a;
+            --type-progress-bg: #d1fae5;
+            --type-planning: #1a6ab0;
+            --type-planning-bg: #dbeafe;
+            --type-policy: #b86b2c;
+            --type-policy-bg: #fef3c7;
+            --type-commerce: #b84a6a;
+            --type-commerce-bg: #fce7f3;
+            --type-finance: #7a5a9a;
+            --type-finance-bg: #f3e8ff;
+            --type-sustain: #3a8a9a;
+            --type-sustain-bg: #cffafe;
+            --star-color: #f59e0b;
+            --star-hover: #d97706;
+        }
+        [data-theme="dark"] {
+            --primary: #7abdd5;
+            --primary-light: #9ad0e5;
+            --primary-dark: #1a3a4a;
+            --accent: #5ab0d5;
+            --accent-hover: #7ac0e0;
+            --accent-light: #9ad0e8;
+            --accent-pale: #1a3a4a;
+            --accent-bg: #0e1a2a;
+            --red: #d98a7a;
+            --green: #7abaa0;
+            --orange: #d0aa6a;
+            --purple: #a08ac0;
+            --ink: #d5dce3;
+            --ink-light: #b0bac5;
+            --muted: #7a9aaa;
+            --muted-light: #5a7a8a;
+            --bg: #0e1a22;
+            --card: #1a2a3a;
+            --card-hover: #223a4a;
+            --border: #2a4a5a;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow: 0 4px 16px rgba(0,0,0,0.4);
+            --shadow-lg: 0 8px 32px rgba(0,0,0,0.5);
+            --table-stripe: #1a2a3a;
+            --table-hover: #223a4a;
+            --summary-bg: #1a2a3a;
+            --chart-track: #1a2a3a;
+            --hero-bg: #0e1a22;
+            --hero-text: #e8f4f8;
+            --hero-sub: rgba(255,255,255,0.7);
+            --badge-world: #5ab0d5;
+            --badge-national: #d98a7a;
+            --badge-guangdong: #7abaa0;
+            --badge-guangzhou: #d0aa6a;
+            --badge-world-bg: #1a3a4a;
+            --badge-national-bg: #3a2a1a;
+            --badge-guangdong-bg: #1a3a2a;
+            --badge-guangzhou-bg: #3a3a1a;
+            --stat-color: #b8d0e0;
+            --tag-bg: #1a2a4a;
+            --tag-color: #7abdd5;
+            --modal-overlay: rgba(0,0,0,0.6);
+            --modal-bg: #1a2a3a;
+            --type-progress: #6abaa0;
+            --type-progress-bg: #1a3a2a;
+            --type-planning: #7aaac5;
+            --type-planning-bg: #1a2a4a;
+            --type-policy: #d0aa6a;
+            --type-policy-bg: #3a2a1a;
+            --type-commerce: #c58aaa;
+            --type-commerce-bg: #2a1a3a;
+            --type-finance: #a08ac0;
+            --type-finance-bg: #2a1a3a;
+            --type-sustain: #6aaaaa;
+            --type-sustain-bg: #1a2a3a;
+            --star-color: #fbbf24;
+            --star-hover: #f59e0b;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            line-height:1.7;
+            transition:background 0.3s, color 0.3s;
+        }
+        .hero {
+            background: var(--hero-bg);
+            color: var(--hero-text);
+            padding:48px 32px 40px;
+            border-bottom: 3px solid var(--accent);
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(74,159,199,0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .hero .inner {
+            max-width:1360px;
+            margin:0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        .hero h1 {
+            font-size:28px;
+            font-weight:800;
+            margin-bottom:12px;
+            letter-spacing:0.5px;
+            color: var(--hero-text);
+        }
+        .hero .code {
+            display:inline-block;
+            background:rgba(255,255,255,0.12);
+            border:1px solid rgba(255,255,255,0.18);
+            border-radius:20px;
+            padding:4px 16px;
+            font-size:13px;
+            margin-bottom:14px;
+            color: var(--hero-sub);
+            letter-spacing:0.5px;
+            backdrop-filter: blur(4px);
+        }
+        .hero p {
+            font-size:14.5px;
+            opacity:0.85;
+            max-width:900px;
+            line-height:1.8;
+            color: var(--hero-sub);
+        }
+        .meta-bar {
+            background:var(--card);
+            border-bottom:1px solid var(--border);
+            padding:16px 32px;
+            box-shadow:var(--shadow-sm);
+            transition:background 0.3s, border-color 0.3s;
+        }
+        .meta-bar .inner {
+            max-width:1360px;
+            margin:0 auto;
+            font-size:13.5px;
+            color:var(--muted);
+            display:flex;
+            flex-direction:column;
+            gap:4px;
+        }
+        .meta-bar .line b { color:var(--ink); font-weight:600; }
+        .meta-bar .lead b { color:var(--ink-light); }
+        .favorite-bar {
+            max-width:1360px;
+            margin:16px auto 0;
+            padding:0 32px;
+            display:flex;
+            align-items:center;
+            gap:12px;
+            flex-wrap:wrap;
+        }
+        .favorite-btn {
+            display:inline-flex;
+            align-items:center;
+            gap:6px;
+            padding:8px 18px;
+            border-radius:20px;
+            border:1px solid var(--border);
+            background:var(--card);
+            color:var(--ink);
+            font-size:13px;
+            font-weight:500;
+            cursor:pointer;
+            transition:all 0.2s;
+            box-shadow:var(--shadow-sm);
+        }
+        .favorite-btn:hover {
+            background:var(--accent-pale);
+            border-color:var(--accent);
+        }
+        .favorite-btn.active {
+            background:var(--accent);
+            color:#fff;
+            border-color:var(--accent);
+        }
+        .favorite-btn .star-icon {
+            color:var(--star-color);
+            font-size:16px;
+        }
+        .favorite-btn .badge {
+            background:var(--red);
+            color:#fff;
+            border-radius:50%;
+            padding:0 6px;
+            font-size:10px;
+            font-weight:600;
+            min-width:18px;
+            text-align:center;
+            line-height:18px;
+        }
+        .favorite-btn .badge.zero {
+            background:var(--muted);
+        }
+        [data-theme="dark"] .favorite-btn.active {
+            background:var(--accent);
+            color:#fff;
+        }
+        .favorite-clear {
+            font-size:12px;
+            color:var(--muted);
+            cursor:pointer;
+            padding:4px 12px;
+            border-radius:12px;
+            border:1px solid transparent;
+            transition:all 0.2s;
+        }
+        .favorite-clear:hover {
+            color:var(--red);
+            border-color:var(--red);
+        }
+        .view-label {
+            font-size:13px;
+            color:var(--muted);
+            margin-left:4px;
+        }
+        .stats-section {
+            max-width:1360px;
+            margin:20px auto 0;
+            padding:0 32px;
+        }
+        .stats-section .section-title {
+            font-size:13px;
+            font-weight:600;
+            color:var(--muted);
+            letter-spacing:1px;
+            text-transform:uppercase;
+            margin-bottom:10px;
+            margin-top:6px;
+            padding-left:2px;
+        }
+        .stats-section .section-title:first-of-type {
+            margin-top:0;
+        }
+        .stats {
+            display:grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap:10px;
+        }
+        .stat {
+            background:var(--card);
+            border:1px solid var(--border);
+            border-radius:var(--radius);
+            padding:14px 10px;
+            text-align:center;
+            box-shadow:var(--shadow-sm);
+            transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor:pointer;
+        }
+        .stat:hover {
+            transform:translateY(-3px);
+            box-shadow:var(--shadow);
+            border-color:var(--accent);
+        }
+        .stat .n {
+            font-size:24px;
+            font-weight:700;
+            color:var(--stat-color);
+            line-height:1.2;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, monospace;
+            letter-spacing:-0.5px;
+        }
+        .stat .l {
+            font-size:11px;
+            color:var(--muted);
+            margin-top:3px;
+            font-weight:500;
+            letter-spacing:0.2px;
+        }
+        @media(max-width:640px) {
+            .stats { grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap:8px; }
+            .stat { padding:10px 8px; }
+            .stat .n { font-size:20px; }
+            .stat .l { font-size:10px; }
+        }
+        .archive-section {
+            max-width:1360px;
+            margin:16px auto 0;
+            padding:0 32px;
+        }
+        .archive-header {
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            flex-wrap:wrap;
+            gap:10px;
+            margin-bottom:10px;
+        }
+        .archive-header .title {
+            font-size:15px;
+            font-weight:700;
+            color:var(--ink);
+            display:flex;
+            align-items:center;
+            gap:8px;
+        }
+        .archive-header .clear-btn {
+            font-size:12px;
+            color:var(--muted);
+            cursor:pointer;
+            padding:2px 10px;
+            border-radius:12px;
+            border:1px solid var(--border);
+            background:var(--card);
+            transition:all 0.2s;
+        }
+        .archive-header .clear-btn:hover {
+            background:var(--accent);
+            color:#fff;
+            border-color:var(--accent);
+        }
+        .archive-list {
+            display:flex;
+            flex-wrap:wrap;
+            gap:6px;
+        }
+        .archive-item {
+            padding:4px 12px;
+            border-radius:16px;
+            border:1px solid var(--border);
+            background:var(--card);
+            color:var(--muted);
+            font-size:12px;
+            cursor:pointer;
+            transition:all 0.2s;
+            white-space:nowrap;
+        }
+        .archive-item:hover {
+            background:var(--accent-pale);
+            border-color:var(--accent);
+            color:var(--ink);
+        }
+        .archive-item.active {
+            background:var(--accent);
+            color:#fff;
+            border-color:var(--accent);
+            font-weight:600;
+        }
+        .archive-item .count {
+            font-weight:500;
+            opacity:0.7;
+            margin-left:2px;
+        }
+        .archive-item.active .count {
+            opacity:0.9;
+        }
+        [data-theme="dark"] .archive-item:hover {
+            background:var(--accent-bg);
+            color:var(--ink);
+        }
+        [data-theme="dark"] .archive-item.active {
+            background:var(--accent);
+            color:#fff;
+        }
+        .chart-section { max-width:1360px; margin:28px auto 0; padding:0 32px; }
+        .chart-title {
+            font-size:18px;
+            font-weight:700;
+            color:var(--ink);
+            margin-bottom:16px;
+            display:flex;
+            align-items:center;
+            gap:10px;
+        }
+        .chart-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+        .chart-panel {
+            background:var(--card);
+            border:1px solid var(--border);
+            border-radius:var(--radius);
+            padding:20px 24px;
+            box-shadow:var(--shadow);
+            transition:background 0.3s, border-color 0.3s;
+        }
+        .chart-panel h3 {
+            font-size:14px;
+            font-weight:700;
+            color:var(--ink);
+            margin-bottom:16px;
+        }
+        .chart-bar-row {
+            display:flex;
+            align-items:center;
+            gap:10px;
+            margin-bottom:8px;
+            font-size:12.5px;
+        }
+        .chart-bar-label {
+            width:110px;
+            flex:none;
+            color:var(--ink);
+            font-size:12px;
+            font-weight:500;
+            text-align:right;
+            padding-right:6px;
+        }
+        .chart-bar-track {
+            flex:1;
+            background:var(--chart-track);
+            border-radius:6px;
+            height:18px;
+            overflow:hidden;
+        }
+        .chart-bar-fill {
+            height:100%;
+            border-radius:6px;
+            transition:width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            position:relative;
+        }
+        .chart-bar-n {
+            width:30px;
+            text-align:right;
+            font-weight:600;
+            color:var(--muted);
+            font-size:12px;
+        }
+        @media(max-width:900px) { .chart-grid { grid-template-columns:1fr; } }
+        .quarterly-section { max-width:1360px; margin:28px auto 0; padding:0 32px; }
+        .quarterly-title {
+            font-size:18px;
+            font-weight:700;
+            color:var(--ink);
+            margin-bottom:16px;
+            display:flex;
+            align-items:center;
+            gap:10px;
+        }
+        .quarterly-grid { display:grid; grid-template-columns:repeat(4, 1fr); gap:14px; }
+        .quarter-card {
+            background:var(--card);
+            border:1px solid var(--border);
+            border-radius:var(--radius);
+            padding:16px 18px;
+            box-shadow:var(--shadow-sm);
+            transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display:flex;
+            flex-direction:column;
+        }
+        .quarter-card:hover {
+            box-shadow:var(--shadow);
+            transform:translateY(-3px);
+            border-color:var(--accent);
+        }
+        .quarter-header {
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:8px;
+        }
+        .quarter-label {
+            font-weight:700;
+            font-size:15px;
+            color:var(--ink);
+        }
+        .quarter-count {
+            background:var(--primary);
+            color:#fff;
+            border-radius:20px;
+            padding:3px 12px;
+            font-size:11px;
+            font-weight:600;
+            white-space:nowrap;
+        }
+        [data-theme="dark"] .quarter-count {
+            background: var(--accent);
+            color: #fff;
+        }
+        .quarter-summary-text {
+            font-size:12.5px;
+            color:var(--ink);
+            line-height:1.75;
+            padding:10px 12px;
+            background:var(--summary-bg);
+            border-radius:6px;
+            border-left:3px solid var(--accent);
+            transition:background 0.3s;
+            flex:1;
+        }
+        @media(max-width:1200px) { .quarterly-grid { grid-template-columns:repeat(2, 1fr); } }
+        @media(max-width:640px) { .quarterly-grid { grid-template-columns:1fr; } }
+        .toolbar {
+            max-width:1360px;
+            margin:16px auto 14px;
+            padding:0 32px;
+            display:flex;
+            flex-wrap:wrap;
+            gap:10px;
+            align-items:center;
+        }
+        .toolbar input, .toolbar select {
+            padding:10px 14px;
+            border:1px solid var(--border);
+            border-radius:var(--radius-sm);
+            font-size:13px;
+            background:var(--card);
+            color:var(--ink);
+            box-shadow:var(--shadow-sm);
+            transition:all 0.2s;
+            font-family: inherit;
+        }
+        .toolbar input:focus, .toolbar select:focus {
+            outline:none;
+            border-color:var(--accent);
+            box-shadow:0 0 0 3px rgba(74,159,199,0.2);
+        }
+        .toolbar input { flex:1; min-width:160px; }
+        .toolbar select { min-width:100px; }
+        .export-bar {
+            display:flex;
+            gap:6px;
+            align-items:center;
+            flex-wrap:wrap;
+        }
+        .export-btn {
+            padding:8px 14px;
+            border-radius:var(--radius-sm);
+            border:1px solid var(--border);
+            background:var(--card);
+            color:var(--ink);
+            font-size:12px;
+            cursor:pointer;
+            transition:all 0.2s;
+            display:inline-flex;
+            align-items:center;
+            gap:5px;
+            box-shadow:var(--shadow-sm);
+        }
+        .export-btn:hover {
+            background:var(--accent);
+            color:#fff;
+            border-color:var(--accent);
+        }
+        .export-btn-primary {
+            background:var(--accent);
+            color:#fff;
+            border-color:var(--accent);
+        }
+        .export-btn-primary:hover {
+            background:var(--accent-hover);
+            border-color:var(--accent-hover);
+        }
+        [data-theme="dark"] .export-btn:hover {
+            background:var(--accent-hover);
+            color:#fff;
+        }
+        [data-theme="dark"] .export-btn-primary {
+            background:var(--accent);
+            color:#fff;
+        }
+        .table-wrap { max-width:1360px; margin:0 auto 44px; padding:0 32px; }
+        table {
+            width:100%;
+            border-collapse:collapse;
+            background:var(--card);
+            border-radius:var(--radius);
+            overflow:hidden;
+            box-shadow:var(--shadow);
+            font-size:13px;
+            transition:background 0.3s;
+        }
+        th {
+            background:var(--primary);
+            color:#fff;
+            padding:12px 10px;
+            text-align:left;
+            font-weight:600;
+            white-space:nowrap;
+            position:sticky;
+            top:0;
+            font-size:12px;
+            letter-spacing:0.3px;
+        }
+        [data-theme="dark"] th {
+            background: var(--primary-dark);
+        }
+        td {
+            padding:10px 10px;
+            border-top:1px solid var(--border);
+            vertical-align:middle;
+        }
+        tbody tr { transition:background 0.15s; }
+        tbody tr:nth-child(even) { background:var(--table-stripe); }
+        tbody tr:hover { background:var(--table-hover); }
+        .num { text-align:center; color:var(--muted); width:36px; font-size:12px; font-weight:500; font-family: 'Inter', monospace; }
+        .date { white-space:nowrap; width:90px; font-size:12px; color:var(--ink); font-feature-settings: "tnum"; }
+        .scope-col { width:76px; text-align:center; }
+        .subject-col { width:76px; text-align:center; }
+        .ttl { font-weight:600; min-width:180px; font-size:13px; display:flex; align-items:center; flex-wrap:wrap; gap:4px; }
+        .ttl a { color:var(--accent); text-decoration:none; transition:color 0.2s; }
+        .ttl a:hover { color:var(--accent-hover); text-decoration:underline; }
+        .media { min-width:120px; font-size:12px; color:var(--muted); }
+        .star-btn {
+            background:none;
+            border:none;
+            cursor:pointer;
+            font-size:16px;
+            padding:0 2px;
+            line-height:1;
+            transition:all 0.2s;
+            color:var(--muted);
+        }
+        .star-btn:hover {
+            transform:scale(1.2);
+        }
+        .star-btn.active {
+            color:var(--star-color);
+        }
+        .star-btn.active:hover {
+            color:var(--star-hover);
+        }
+        .tag {
+            display:inline-block;
+            padding:2px 10px;
+            border-radius:14px;
+            font-size:10.5px;
+            white-space:nowrap;
+            margin:1px 0;
+            font-weight:500;
+            width:fit-content;
+            letter-spacing:0.2px;
+        }
+        .scope-badge {
+            display:inline-block;
+            padding:4px 12px;
+            border-radius:14px;
+            font-size:11px;
+            font-weight:600;
+            letter-spacing:0.3px;
+        }
+        .scope-world { background:var(--badge-world-bg); color:var(--badge-world); }
+        .scope-national { background:var(--badge-national-bg); color:var(--badge-national); }
+        .scope-guangdong { background:var(--badge-guangdong-bg); color:var(--badge-guangdong); }
+        .scope-guangzhou { background:var(--badge-guangzhou-bg); color:var(--badge-guangzhou); }
+        [data-theme="dark"] .scope-world { background:var(--badge-world-bg); color:var(--badge-world); }
+        [data-theme="dark"] .scope-national { background:var(--badge-national-bg); color:var(--badge-national); }
+        [data-theme="dark"] .scope-guangdong { background:var(--badge-guangdong-bg); color:var(--badge-guangdong); }
+        [data-theme="dark"] .scope-guangzhou { background:var(--badge-guangzhou-bg); color:var(--badge-guangzhou); }
+        .subject-badge {
+            display:inline-block;
+            padding:4px 12px;
+            border-radius:14px;
+            font-size:11px;
+            font-weight:600;
+            letter-spacing:0.3px;
+        }
+        .subject-national { background:#dce4f0; color:#3a4a7a; }
+        .subject-railway { background:#dce8f0; color:#2a5a6a; }
+        .subject-intercity { background:#d4eaf0; color:#2a6a7a; }
+        .subject-metro { background:#f0e4ec; color:#7a4a6a; }
+        [data-theme="dark"] .subject-national { background:#2a2a3a; color:#8a8ab5; }
+        [data-theme="dark"] .subject-railway { background:#1a2a3a; color:#7aaac0; }
+        [data-theme="dark"] .subject-intercity { background:#1a3a4a; color:#7abac5; }
+        [data-theme="dark"] .subject-metro { background:#3a2a3a; color:#b58aaa; }
+
+        .kw-tag {
+            display:inline-block;
+            padding:2px 10px;
+            border-radius:14px;
+            font-size:10.5px;
+            white-space:nowrap;
+            margin:1px 0;
+            font-weight:500;
+            width:fit-content;
+            letter-spacing:0.2px;
+        }
+        .kw-tag-planning { background:#dbeafe; color:#1e40af; }
+        .kw-tag-urban { background:#fce4ec; color:#a31545; }
+        .kw-tag-arch { background:#fff3e0; color:#b45309; }
+        .kw-tag-transport { background:#d1fae5; color:#065f46; }
+        .kw-tag-industry { background:#f3e5f5; color:#6a1b9a; }
+        .kw-tag-finance { background:#f5e4e4; color:#7a3a3a; }
+        .kw-tag-invest { background:#e3f2fd; color:#0d47a1; }
+        .kw-tag-operate { background:#e0f7fa; color:#00695c; }
+        .kw-tag-integrate { background:#f5f5f5; color:#37474f; }
+        .kw-tag-tod { background:#fff8e1; color:#b8860b; }
+        .kw-tag-award { background:#fff1f0; color:#b71c1c; }
+        .kw-tag-subject { background:#dce4f0; color:#3a4a7a; }
+        [data-theme="dark"] .kw-tag-planning { background:#1a2a4a; color:#7aaac5; }
+        [data-theme="dark"] .kw-tag-urban { background:#3a1a2a; color:#c58aaa; }
+        [data-theme="dark"] .kw-tag-arch { background:#3a2a1a; color:#d0aa6a; }
+        [data-theme="dark"] .kw-tag-transport { background:#1a3a2a; color:#6aaa8a; }
+        [data-theme="dark"] .kw-tag-industry { background:#2a1a3a; color:#a08ac0; }
+        [data-theme="dark"] .kw-tag-finance { background:#3a1a1a; color:#b57a6a; }
+        [data-theme="dark"] .kw-tag-invest { background:#1a2a4a; color:#7aaac5; }
+        [data-theme="dark"] .kw-tag-operate { background:#1a3a3a; color:#6aaaaa; }
+        [data-theme="dark"] .kw-tag-integrate { background:#2a2a2a; color:#8a8a8a; }
+        [data-theme="dark"] .kw-tag-tod { background:#2a2a1a; color:#b5aa6a; }
+        [data-theme="dark"] .kw-tag-award { background:#3a1a1a; color:#b57a6a; }
+        [data-theme="dark"] .kw-tag-subject { background:#2a2a3a; color:#8a8ab5; }
+        /* 关键词列：每行固定2个标签，保证上下对齐 */
+        .kw-cell {
+            display:grid;
+            grid-template-columns:repeat(2, 1fr);
+            gap:3px 6px;
+            align-items:center;
+            min-width:75px;
+            line-height:1.5;
+        }
+        .kw-cell .kw-tag {
+            text-align:center;
+            width:100%;
+            justify-self:center;
+        }
+        a { color:var(--accent); text-decoration:none; }
+        a:hover { color:var(--accent-hover); text-decoration:underline; }
+        [data-theme="dark"] .ttl a { color:var(--accent-light); }
+        [data-theme="dark"] .ttl a:hover { color:var(--accent-hover); }
+        footer {
+            text-align:center;
+            color:var(--muted);
+            font-size:13px;
+            padding:24px 32px 40px;
+            border-top:1px solid var(--border);
+            margin-top:20px;
+            transition:border-color 0.3s;
+        }
+        .scroll-box { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+        .count-tip { font-size:13px; color:var(--muted); font-weight:500; }
+        .back-to-top {
+            position:fixed;
+            bottom:32px;
+            right:32px;
+            width:44px;
+            height:44px;
+            border-radius:50%;
+            background:var(--primary);
+            color:#fff;
+            border:none;
+            cursor:pointer;
+            font-size:18px;
+            box-shadow:var(--shadow);
+            opacity:0;
+            visibility:hidden;
+            transform:translateY(20px);
+            transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index:1000;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+        }
+        .back-to-top.show { opacity:1; visibility:visible; transform:translateY(0); }
+        .back-to-top:hover { background:var(--primary-light); transform:translateY(-3px); box-shadow:var(--shadow-lg); }
+        .theme-toggle {
+            position:fixed;
+            bottom:32px;
+            right:90px;
+            width:44px;
+            height:44px;
+            border-radius:50%;
+            background:var(--card);
+            color:var(--ink);
+            border:2px solid var(--border);
+            cursor:pointer;
+            font-size:18px;
+            box-shadow:var(--shadow);
+            transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index:1000;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+        }
+        .theme-toggle:hover { transform:scale(1.08); box-shadow:var(--shadow-lg); }
+        .loading { text-align:center; padding:40px; color:var(--muted); font-size:16px; }
+        .error-msg {
+            background:var(--badge-national-bg);
+            color:var(--badge-national);
+            padding:20px;
+            border-radius:8px;
+            text-align:center;
+            border:1px solid var(--border);
+        }
+        .empty-msg { text-align:center; padding:40px; color:var(--muted); font-size:16px; }
+        .track-btn {
+            display:inline-block;
+            background:var(--accent-pale);
+            color:var(--accent);
+            padding:1px 10px;
+            border-radius:12px;
+            font-size:11px;
+            font-weight:500;
+            cursor:pointer;
+            transition:all 0.2s;
+            border:1px solid transparent;
+            white-space:nowrap;
+        }
+        .track-btn:hover {
+            background:var(--accent);
+            color:#fff;
+            border-color:var(--accent);
+        }
+        [data-theme="dark"] .track-btn:hover {
+            background:var(--accent-hover);
+            color:#fff;
+        }
+        .modal-overlay {
+            position:fixed;
+            top:0; left:0; right:0; bottom:0;
+            background:var(--modal-overlay);
+            backdrop-filter:blur(4px);
+            z-index:9999;
+            display:none;
+            align-items:center;
+            justify-content:center;
+            padding:20px;
+        }
+        .modal-overlay.active { display:flex; }
+        .modal-content {
+            background:var(--modal-bg);
+            border-radius:var(--radius);
+            max-width:720px;
+            width:100%;
+            max-height:80vh;
+            overflow-y:auto;
+            padding:24px 28px;
+            box-shadow:var(--shadow-lg);
+            border:1px solid var(--border);
+            position:relative;
+            animation: modalIn 0.3s ease;
+        }
+        @keyframes modalIn {
+            from { opacity:0; transform:translateY(20px) scale(0.96); }
+            to { opacity:1; transform:translateY(0) scale(1); }
+        }
+        .modal-header {
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:16px;
+            padding-bottom:12px;
+            border-bottom:2px solid var(--border);
+        }
+        .modal-header h2 { font-size:18px; font-weight:700; color:var(--ink); }
+        .modal-close {
+            background:none;
+            border:none;
+            font-size:24px;
+            cursor:pointer;
+            color:var(--muted);
+            transition:color 0.2s;
+            padding:0 4px;
+            line-height:1;
+        }
+        .modal-close:hover { color:var(--red); }
+        .modal-timeline-item {
+            padding:12px 0;
+            border-bottom:1px solid var(--border);
+            display:flex;
+            gap:14px;
+            align-items:flex-start;
+        }
+        .modal-timeline-item:last-child { border-bottom:none; }
+        .modal-timeline-date { flex:none; min-width:100px; font-size:12px; color:var(--muted); font-weight:500; padding-top:1px; }
+        .modal-timeline-body { flex:1; }
+        .modal-timeline-body .title { font-size:14px; font-weight:600; color:var(--ink); }
+        .modal-timeline-body .title a { color:var(--accent); text-decoration:none; }
+        .modal-timeline-body .title a:hover { text-decoration:underline; }
+        .modal-timeline-body .summary { font-size:12px; color:var(--muted-light); margin-top:2px; line-height:1.5; }
+        [data-theme="dark"] .modal-timeline-body .summary { color:var(--muted); }
+        .modal-timeline-body .type-tag-sm {
+            display:inline-block;
+            padding:0 8px;
+            border-radius:10px;
+            font-size:10px;
+            font-weight:500;
+            margin-top:3px;
+            background:var(--accent-pale);
+            color:var(--accent);
+        }
+        [data-theme="dark"] .modal-timeline-body .type-tag-sm {
+            background:var(--accent-bg);
+            color:var(--accent-light);
+        }
+        .modal-timeline-body .scope-tag-sm {
+            display:inline-block;
+            padding:0 8px;
+            border-radius:10px;
+            font-size:10px;
+            font-weight:500;
+            margin-top:3px;
+            margin-left:4px;
+            background:var(--badge-world-bg);
+            color:var(--badge-world);
+        }
+        .modal-empty { text-align:center; padding:30px 0; color:var(--muted); font-size:14px; }
+        .modal-footer {
+            margin-top:14px;
+            padding-top:12px;
+            border-top:1px solid var(--border);
+            font-size:13px;
+            color:var(--muted);
+            text-align:center;
+        }
+        @media(max-width:640px) {
+            .modal-content { padding:16px; }
+            .modal-timeline-item { flex-direction:column; gap:4px; }
+            .modal-timeline-date { min-width:auto; font-size:11px; }
+        }
+        .phase-badge {
+            display:inline-block;
+            padding:2px 8px;
+            border-radius:10px;
+            font-size:10px;
+            font-weight:500;
+            margin-left:6px;
+        }
+        .phase-planning { background:#dbeafe; color:#1e40af; }
+        .phase-construction { background:#fef3c7; color:#b45309; }
+        .phase-operation { background:#d1fae5; color:#065f46; }
+        [data-theme="dark"] .phase-planning { background:#1e3a5f; color:#93c5fd; }
+        [data-theme="dark"] .phase-construction { background:#3b2a1a; color:#fdba74; }
+        [data-theme="dark"] .phase-operation { background:#1a3b2a; color:#86efac; }
+        .toast {
+            position:fixed;
+            bottom:100px;
+            left:50%;
+            transform:translateX(-50%);
+            background:var(--primary);
+            color:#fff;
+            padding:12px 24px;
+            border-radius:var(--radius-sm);
+            font-size:14px;
+            box-shadow:var(--shadow-lg);
+            z-index:99999;
+            opacity:0;
+            transition:opacity 0.3s;
+            pointer-events:none;
+        }
+        .toast.show { opacity:1; }
+        [data-theme="dark"] .toast { background:var(--accent); color:#fff; }
+        .pagination-bar {
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            flex-wrap:wrap;
+            gap:12px;
+            padding:14px 0 6px 0;
+            font-size:13px;
+            color:var(--muted);
+        }
+        .pagination-controls {
+            display:flex;
+            align-items:center;
+            gap:6px;
+            flex-wrap:wrap;
+        }
+        .pagination-controls button {
+            padding:4px 12px;
+            border:1px solid var(--border);
+            border-radius:var(--radius-sm);
+            background:var(--card);
+            color:var(--ink);
+            cursor:pointer;
+            font-size:13px;
+            transition:all 0.2s;
+            min-width:32px;
+            text-align:center;
+        }
+        .pagination-controls button:hover:not(:disabled) { background:var(--accent); color:#fff; border-color:var(--accent); }
+        .pagination-controls button:disabled { opacity:0.4; cursor:not-allowed; }
+        .pagination-controls button.active { background:var(--accent); color:#fff; border-color:var(--accent); font-weight:600; }
+        .pagination-controls .page-info { padding:0 8px; font-size:13px; color:var(--muted); }
+        .pagination-controls select {
+            padding:4px 8px;
+            border:1px solid var(--border);
+            border-radius:var(--radius-sm);
+            background:var(--card);
+            color:var(--ink);
+            font-size:13px;
+        }
+        .pagination-controls select:focus { outline:none; border-color:var(--accent); }
+        [data-theme="dark"] .pagination-controls button:hover:not(:disabled) { background:var(--accent-hover); color:#fff; }
+        [data-theme="dark"] .pagination-controls button.active { background:var(--accent); color:#fff; }
+        .page-jump {
+            display:flex;
+            align-items:center;
+            gap:4px;
+        }
+        .page-jump input {
+            width:48px;
+            padding:4px 4px;
+            border:1px solid var(--border);
+            border-radius:var(--radius-sm);
+            background:var(--card);
+            color:var(--ink);
+            text-align:center;
+            font-size:13px;
+        }
+        .page-jump input:focus { outline:none; border-color:var(--accent); }
+        .page-jump button {
+            padding:4px 10px;
+            border:1px solid var(--border);
+            border-radius:var(--radius-sm);
+            background:var(--card);
+            color:var(--ink);
+            cursor:pointer;
+            font-size:12px;
+            transition:all 0.2s;
+        }
+        .page-jump button:hover { background:var(--accent); color:#fff; border-color:var(--accent); }
+        [data-theme="dark"] .page-jump button:hover { background:var(--accent-hover); color:#fff; }
+        @media(max-width:768px) {
+            .pagination-bar { flex-direction:column; align-items:flex-start; gap:8px; }
+            .pagination-controls { flex-wrap:wrap; }
+            .toolbar select { min-width:80px; font-size:12px; padding:8px 10px; }
+            .scope-col { width:60px; }
+            .subject-col { width:60px; }
+            .date { width:75px; font-size:11px; }
+            .media { min-width:80px; font-size:11px; }
+            .ttl { font-size:12px; min-width:120px; flex-wrap:wrap; }
+            th { font-size:10px; padding:8px 6px; }
+            td { padding:8px 6px; font-size:12px; }
+            .table-wrap table thead { display: none; }
+            .table-wrap table tbody tr {
+                display: block;
+                background: var(--card);
+                border: 1px solid var(--border);
+                border-radius: var(--radius);
+                padding: 16px;
+                margin-bottom: 12px;
+                box-shadow: var(--shadow-sm);
+            }
+            .table-wrap table tbody tr td {
+                display: flex;
+                padding: 6px 0;
+                border: none;
+                align-items: flex-start;
+                gap: 8px;
+                font-size: 13px;
+            }
+            .table-wrap table tbody tr td:before {
+                content: attr(data-label);
+                font-weight: 600;
+                color: var(--muted);
+                font-size: 11px;
+                min-width: 60px;
+                flex: none;
+            }
+            .table-wrap table tbody tr td.num:before { content: '#'; }
+            .table-wrap table tbody tr td.date:before { content: '日期'; }
+            .table-wrap table tbody tr td.scope-col:before { content: '范围'; }
+            .table-wrap table tbody tr td.subject-col:before { content: '主体'; }
+            .table-wrap table tbody tr td.ttl:before { content: '标题'; }
+            .table-wrap table tbody tr td.media:before { content: '来源'; }
+            .table-wrap table tbody tr td.kw-cell:before { content: '关键词'; }
+            .table-wrap table tbody tr td.num { display: none; }
+            .table-wrap table tbody tr td.scope-col,
+            .table-wrap table tbody tr td.subject-col,
+            .table-wrap table tbody tr td.ttl,
+            .table-wrap table tbody tr td.media,
+            .table-wrap table tbody tr td.kw-cell,
+            .table-wrap table tbody tr td.date {
+                display: flex;
+                flex-wrap: wrap;
+            }
+            .table-wrap table tbody tr td .scope-badge,
+            .table-wrap table tbody tr td .subject-badge { font-size: 11px; }
+            .table-wrap table tbody tr td .ttl a { font-size: 14px; }
+            .table-wrap table tbody tr td .kw-cell { gap: 4px; }
+            .hero { padding: 32px 16px 28px; }
+            .hero h1 { font-size: 20px; }
+            .meta-bar { padding: 12px 16px; }
+            .favorite-bar { padding: 0 16px; }
+            .stats-section { padding: 0 16px; }
+            .stats { grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 8px; }
+            .archive-section { padding: 0 16px; }
+            .chart-section { padding: 0 16px; }
+            .chart-grid { grid-template-columns: 1fr; }
+            .quarterly-grid { grid-template-columns: 1fr 1fr; }
+            .toolbar { padding: 0 16px; flex-direction: column; align-items: stretch; }
+            .toolbar input { min-width: 100%; }
+            .toolbar select { min-width: 100%; }
+            .table-wrap { padding: 0 16px; }
+            footer { padding: 16px; }
+            .back-to-top { bottom: 20px; right: 20px; width: 40px; height: 40px; font-size: 16px; }
+            .theme-toggle { bottom: 20px; right: 76px; width: 40px; height: 40px; font-size: 16px; }
+        }
+        @media(max-width:480px) {
+            .quarterly-grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 18px; }
+            .stat .n { font-size: 18px; }
+            .favorite-bar { gap: 8px; }
+            .favorite-btn { padding: 6px 12px; font-size: 12px; }
+        }
+    </style>
+</head>
+<body>
+    <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">🌙</button>
+
+    <div class="modal-overlay" id="projectModal" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2 id="modalTitle">📋 项目追踪</h2>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div id="modalBody"></div>
+            <div class="modal-footer" id="modalFooter"></div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <div class="hero"><div class="inner"><h1>轨道交通综合开发新闻报道监测</h1><span class="code">国铁 · 城际 · 地铁 · 轨道 · 综合交通枢纽 · 综合开发 · 投融资 · 可持续经营运营</span><p>本页数据由小机器人每周一自动抓取更新 🤖</p></div></div>
+    <div class="meta-bar"><div class="inner"><div class="line"><b>监测范围：</b>世界 · 中国 · 广东省 · 广州市 四级轨道交通综合开发</div><div class="line lead"><b>关键领域：</b>国铁综合开发 · 城际轨道投融资 · 地铁TOD · 轨道可持续经营 · 综合交通枢纽站城融合 · 场站综合体综合开发</div><div class="line"><b>最近更新：</b> <span id="lastUpdate">加载中...</span> · <b>收录报道：</b><span id="totalCount">0</span> 条</div></div></div>
+
+    <div class="favorite-bar" id="favoriteBar">
+        <button class="favorite-btn" id="favoriteToggleBtn" onclick="toggleFavoriteView()">
+            <span class="star-icon">⭐</span>
+            <span>收藏夹</span>
+            <span class="badge zero" id="favoriteBadge">0</span>
+        </button>
+        <span class="view-label" id="viewLabel">📋 全部新闻</span>
+        <span class="favorite-clear" id="favoriteClearBtn" onclick="clearAllFavorites()" style="display:none;">🗑️ 清空收藏</span>
+    </div>
+
+    <div class="stats-section">
+        <div class="section-title">📊 主体统计</div>
+        <div class="stats" id="statsSubject"></div>
+        <div class="section-title" style="margin-top:16px;">📍 地理范围</div>
+        <div class="stats" id="statsScope"></div>
+    </div>
+
+    <div class="archive-section" id="archiveSection">
+        <div class="archive-header">
+            <span class="title">📅 月份归档</span>
+            <span id="archiveClearBtn" class="clear-btn" onclick="clearArchiveFilter()" style="display:none;">✕ 清除筛选</span>
+        </div>
+        <div class="archive-list" id="archiveList"></div>
+    </div>
+
+    <div class="chart-section">
+        <div class="chart-title">📊 数据图表总结</div>
+        <div class="chart-grid">
+            <div class="chart-panel" id="mediaChart"><h3>📰 媒体来源分布</h3></div>
+            <div class="chart-panel" id="keywordChart"><h3>🏷️ 领域关键词热度</h3></div>
+        </div>
+    </div>
+
+    <div class="quarterly-section"><div class="quarterly-title">📝 季度新闻总结</div><div class="quarterly-grid" id="quarterlyGrid"></div></div>
+
+    <div class="toolbar">
+        <input type="text" placeholder="🔍 搜索标题、来源..." id="searchInput" onkeyup="onSearchChange()"/>
+        <select id="scopeFilter" onchange="onSearchChange()">
+            <option value="all">全部范围</option>
+            <option value="世界">🌐 世界</option>
+            <option value="全国">🇨🇳 全国</option>
+            <option value="广东省">📗 广东省</option>
+            <option value="广州市">📙 广州市</option>
+        </select>
+        <select id="subjectFilter" onchange="onSearchChange()">
+            <option value="all">全部主体</option>
+            <option value="国铁">🚄 国铁</option>
+            <option value="铁路">🚂 铁路</option>
+            <option value="城际">🚆 城际</option>
+            <option value="地铁">🚇 地铁</option>
+        </select>
+        <select id="areaFilter" onchange="onSearchChange()">
+            <option value="all">全部领域</option>
+            <option value="规划">📐 规划</option>
+            <option value="城市设计">🏙️ 城市设计</option>
+            <option value="建筑">🏗️ 建筑</option>
+            <option value="交通">🚦 交通</option>
+            <option value="产业">🏭 产业</option>
+            <option value="投融资">💰 投融资</option>
+            <option value="招商">🤝 招商</option>
+            <option value="运营">⚙️ 运营</option>
+            <option value="站城融合">🏙️ 站城融合</option>
+            <option value="TOD">🏢 TOD</option>
+            <option value="获奖">🏆 获奖</option>
+        </select>
+        <span class="count-tip" id="countTip">共 0 条</span>
+        <div class="export-bar">
+            <button class="export-btn export-btn-primary" onclick="exportCSV('filtered')">📥 导出当前</button>
+            <button class="export-btn" onclick="exportCSV('all')">📥 导出全部</button>
+        </div>
+    </div>
+
+    <div class="table-wrap">
+        <div class="scroll-box">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="num">#</th>
+                        <th>日期</th>
+                        <th class="scope-col">范围</th>
+                        <th class="subject-col">主体</th>
+                        <th>标题</th>
+                        <th>媒体/来源</th>
+                        <th>关键词</th>
+                    </tr>
+                </thead>
+                <tbody id="newsTable"><tr><td colspan="7" class="loading">⏳ 正在读取新闻数据...</td></tr></tbody>
+            </table>
+        </div>
+        <div class="pagination-bar" id="paginationBar">
+            <span class="page-info" id="pageInfo">共 0 条，第 1 / 1 页</span>
+            <div class="pagination-controls">
+                <button onclick="goToPage(1)" id="firstPageBtn" disabled>首页</button>
+                <button onclick="goToPage(currentPage - 1)" id="prevPageBtn" disabled>‹</button>
+                <span id="pageNumbers"></span>
+                <button onclick="goToPage(currentPage + 1)" id="nextPageBtn" disabled>›</button>
+                <button onclick="goToPage(totalPages)" id="lastPageBtn" disabled>末页</button>
+                <div class="page-jump">
+                    <span>跳至</span>
+                    <input type="number" id="jumpInput" min="1" value="1" onkeydown="if(event.key==='Enter'){jumpToPage();}"/>
+                    <span>页</span>
+                    <button onclick="jumpToPage()">GO</button>
+                </div>
+                <span style="font-size:12px;color:var(--muted);margin-left:4px;">每页</span>
+                <select id="pageSizeSelect" onchange="onPageSizeChange()">
+                    <option value="10">10</option>
+                    <option value="20" selected>20</option>
+                    <option value="30">30</option>
+                    <option value="50">50</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <footer><p>轨道交通综合开发新闻报道监测 · 数据由小机器人每周一自动抓取</p></footer>
+
+    <script>
+        // ===== 全局变量 =====
+        let allNewsData = [];
+        let currentPage = 1;
+        let pageSize = 20;
+        let totalPages = 1;
+        let archiveMonth = '';
+        let showFavoritesOnly = false;
+        let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+
+        // ===== 主体与领域列表 =====
+        const SUBJECTS = ['国铁', '铁路', '城际', '地铁'];
+        const AREAS = ['规划', '城市设计', '建筑', '交通', '产业', '投融资', '招商', '运营', '站城融合', 'TOD', '获奖'];
+
+        // ===== 媒体映射 =====
+        const MEDIA_MAP = {
+            'people.com.cn': '人民网', 'xinhuanet.com': '新华网', 'gmw.cn': '光明网',
+            'cnr.cn': '央广网', 'cctv.com': '央视网', 'china.com.cn': '中国网',
+            'zgjtb.com': '中国交通报', 'peoplerail.com': '人民铁道报',
+            'bjnews.com.cn': '新京报', 'thepaper.cn': '澎湃新闻',
+            'yicai.com': '第一财经', 'leju.com': '乐居财经',
+            'sohu.com': '搜狐新闻', '163.com': '网易新闻', 'sina.com.cn': '新浪新闻',
+            'ifeng.com': '凤凰网', 'huanqiu.com': '环球网',
+            'jiemian.com': '界面新闻', 'caixin.com': '财新网',
+            '21jingji.com': '21世纪经济报道', 'nbd.com.cn': '每日经济新闻',
+            'stcn.com': '证券时报', 'eastmoney.com': '东方财富', 'hexun.com': '和讯网',
+            'gz.gov.cn': '广州市政府网', 'gd.gov.cn': '广东省政府网',
+            'gzmtr.com': '广州地铁官网', 'szmc.net': '深圳地铁官网',
+            'sznews.com': '深圳新闻网', 'dayoo.com': '广州日报大洋网',
+            'nfnews.com': '南方日报', 'oeeee.com': '南方都市报',
+            'ycwb.com': '羊城晚报', 'gz-cmc.com': '广州日报新花城',
+            'conghua.gov.cn': '从化区政府网',
+            'bj.gov.cn': '北京市政府网', 'beijing.gov.cn': '北京市政府网',
+            'bjd.com.cn': '北京日报', 'ynet.com': '北京青年报',
+            'tj.gov.cn': '天津政务网', 'sh.gov.cn': '上海市政府网',
+            'shmetro.com': '上海申通地铁', 'shobserver.com': '上观新闻',
+            'cq.gov.cn': '重庆市政府网', 'cql.gov.cn': '重庆日报',
+            'scol.com.cn': '四川观察', 'sctv.com': '四川广播电视台',
+            'jinan.gov.cn': '济南市政府网', 'jnnc.com': '济南日报',
+            'sd.gov.cn': '山东省政府网', 'sdjt.gov.cn': '山东省交通厅',
+            'xian-metro.com': '西安地铁官网', 'sx.chinanews.com': '中新网山西',
+            'henan.gov.cn': '河南省政府网', 'hubeidaily.net': '湖北日报',
+            'hunan.gov.cn': '湖南省政府网', 'icswb.com': '长沙晚报',
+            'gxnews.com.cn': '广西新闻网', 'xmnn.cn': '厦门网',
+            'nbmetro.com': '宁波轨道交通官网', 'hangzhou.com.cn': '杭州网',
+            'hangzhou.gov.cn': '杭州市政府网', 'suzhou.gov.cn': '苏州市政府网',
+            'nj.gov.cn': '南京市政府网', 'hebei.gov.cn': '河北省政府网',
+            'hebnews.cn': '河北新闻网', 'cnjiwang.com': '中国吉林网',
+            'jlnews.cn': '吉林日报', 'hljnews.cn': '黑龙江日报',
+            'chinatod.com.cn': '中国TOD网', 'rail-transit.com': '中国轨道交通网',
+            'chinametro.net': '中国城市轨道交通网', 'camet.org.cn': '中国城市轨道交通协会',
+            'rail.ally.net.cn': '世界轨道交通资讯网', 'rt-media.cn': 'RT轨道交通',
+            'railworld.com.cn': '轨道世界', 'gaotie.cn': '高铁网',
+            'railjournal.com': 'International Railway Journal',
+            'railwaygazette.com': 'Railway Gazette', 'uitp.org': 'UITP',
+            'tfl.gov.uk': '伦敦交通局', 'lta.gov.sg': '新加坡LTA',
+            'db.de': '德国铁路DB', 'jr-east.co.jp': 'JR东日本',
+            'fra.dot.gov': '美国联邦铁路管理局', 'europa.eu': '欧盟委员会',
+            'baidu.com': '百度新闻', 'sogou.com': '搜狗新闻', 'so.com': '360新闻',
+            'toutiao.com': '今日头条', 'news.qq.com': '腾讯新闻',
+            'news.163.com': '网易新闻', 'news.sina.com.cn': '新浪新闻',
+            'news.sohu.com': '搜狐新闻',
+        };
+
+        // ===== 工具函数 =====
+        function getMediaName(item) {
+            if (!item) return '未知来源';
+            const source = item.来源 || '';
+            const link = item.链接 || '';
+            const genericNames = ['百度新闻', '搜狗新闻', '360新闻', '今日头条', '腾讯新闻', '网易新闻', '新浪新闻', '搜狐新闻'];
+            if (source && !genericNames.includes(source) && source.length < 15) return source;
+            let hostname = '';
+            try {
+                if (link) {
+                    const url = new URL(link);
+                    hostname = url.hostname.replace(/^www\./, '');
+                }
+            } catch (e) {}
+            if (hostname) {
+                if (MEDIA_MAP[hostname]) return MEDIA_MAP[hostname];
+                for (const [domain, name] of Object.entries(MEDIA_MAP)) {
+                    if (hostname.endsWith('.' + domain)) return name;
+                }
+                const parts = hostname.split('.');
+                if (parts.length >= 2) {
+                    const main = parts[parts.length - 2];
+                    if (main.length > 2 && !['com', 'org', 'net', 'gov', 'edu', 'cn'].includes(main)) {
+                        return main.charAt(0).toUpperCase() + main.slice(1);
+                    }
+                }
+                return hostname;
+            }
+            return source || '未知来源';
+        }
+
+        function cleanTitle(rawTitle) {
+            if (!rawTitle) return '无标题';
+            let title = rawTitle;
+            title = title.replace(/\s*快资讯\s*\d+天前\s*$/, '');
+            title = title.replace(/\s*快资讯$/, '');
+            const suffixes = ['快资讯', '搜狐', '新浪', '网易', '腾讯', '今日头条', '百家号', '一点资讯', 'ZAKER', '大风号', '澎湃号', '媒体号', 'APP', '客户端'];
+            for (const suffix of suffixes) {
+                title = title.replace(new RegExp(`\\s*[-–—]\\s*${suffix}\\s*$`), '');
+                title = title.replace(new RegExp(`\\s*${suffix}\\s*$`), '');
+                title = title.replace(new RegExp(`\\s*[-–—]\\s*${suffix}\\s*\\d+天前\\s*$`), '');
+            }
+            title = title.replace(/\s*\d+天前\s*$/, '');
+            title = title.replace(/\s*\d+小时前\s*$/, '');
+            title = title.replace(/\s*\d+分钟前\s*$/, '');
+            if (title.length > 40) title = title.substring(0, 40) + '...';
+            return title.trim() || '无标题';
+        }
+
+        // ===== 提取主体：包含"轨道"自动归入"铁路"，默认归入"铁路" =====
+        function extractSubject(keywords) {
+            if (!keywords || !Array.isArray(keywords)) return '铁路';
+            if (keywords.includes('轨道')) return '铁路';
+            for (const s of SUBJECTS) {
+                if (keywords.includes(s)) return s;
+            }
+            return '铁路';
+        }
+
+        function extractAreas(keywords) {
+            if (!keywords || !Array.isArray(keywords)) return [];
+            const result = [];
+            for (const a of AREAS) {
+                if (keywords.includes(a)) result.push(a);
+            }
+            return result;
+        }
+
+        function getSubjectClass(subject) {
+            const map = {
+                '国铁': 'subject-national',
+                '铁路': 'subject-railway',
+                '城际': 'subject-intercity',
+                '地铁': 'subject-metro'
+            };
+            return map[subject] || 'subject-railway';
+        }
+
+        // ===== 获取关键词样式类（支持主体词和领域词） =====
+        function getKeywordClass(keyword) {
+            const areaMap = {
+                '规划': 'kw-tag-planning',
+                '城市设计': 'kw-tag-urban',
+                '建筑': 'kw-tag-arch',
+                '交通': 'kw-tag-transport',
+                '产业': 'kw-tag-industry',
+                '投融资': 'kw-tag-finance',
+                '招商': 'kw-tag-invest',
+                '运营': 'kw-tag-operate',
+                '站城融合': 'kw-tag-integrate',
+                'TOD': 'kw-tag-tod',
+                '获奖': 'kw-tag-award'
+            };
+            if (areaMap[keyword]) return areaMap[keyword];
+            // 主体词用统一的样式
+            if (SUBJECTS.includes(keyword) || keyword === '轨道') return 'kw-tag-subject';
+            return 'kw-tag-tod';
+        }
+
+        // ============================================================
+        // 收藏功能
+        // ============================================================
+        function getNewsId(item) {
+            return (item.标题 || '') + '|' + (item.日期 || '') + '|' + (item.来源 || '');
+        }
+        function isFavorited(item) {
+            const id = getNewsId(item);
+            return favorites.includes(id);
+        }
+        function toggleFavorite(item) {
+            const id = getNewsId(item);
+            const idx = favorites.indexOf(id);
+            if (idx > -1) { favorites.splice(idx, 1); } else { favorites.push(id); }
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            updateFavoriteBadge();
+            renderPage();
+            if (showFavoritesOnly && favorites.length === 0) {
+                showFavoritesOnly = false;
+                updateViewLabel();
+                renderPage();
+            }
+        }
+        function toggleFavoriteView() {
+            showFavoritesOnly = !showFavoritesOnly;
+            if (showFavoritesOnly && favorites.length === 0) {
+                showToast('📭 暂无收藏的新闻');
+                showFavoritesOnly = false;
+                return;
+            }
+            updateViewLabel();
+            currentPage = 1;
+            renderPage();
+            document.getElementById('favoriteToggleBtn').classList.toggle('active', showFavoritesOnly);
+            document.getElementById('favoriteClearBtn').style.display = showFavoritesOnly && favorites.length > 0 ? 'inline-block' : 'none';
+        }
+        function updateFavoriteBadge() {
+            const badge = document.getElementById('favoriteBadge');
+            badge.textContent = favorites.length;
+            badge.classList.toggle('zero', favorites.length === 0);
+            if (showFavoritesOnly) {
+                document.getElementById('favoriteClearBtn').style.display = favorites.length > 0 ? 'inline-block' : 'none';
+            }
+        }
+        function updateViewLabel() {
+            const label = document.getElementById('viewLabel');
+            if (showFavoritesOnly) {
+                label.textContent = '⭐ 收藏夹 (' + favorites.length + ' 条)';
+            } else {
+                label.textContent = '📋 全部新闻';
+            }
+        }
+        function clearAllFavorites() {
+            if (favorites.length === 0) return;
+            if (!confirm('确定要清空所有收藏吗？')) return;
+            favorites = [];
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            updateFavoriteBadge();
+            if (showFavoritesOnly) {
+                showFavoritesOnly = false;
+                updateViewLabel();
+                document.getElementById('favoriteToggleBtn').classList.remove('active');
+                document.getElementById('favoriteClearBtn').style.display = 'none';
+            }
+            renderPage();
+            showToast('🗑️ 已清空所有收藏');
+        }
+
+        // ============================================================
+        // 项目追踪
+        // ============================================================
+        const PROJECT_MAP = {
+            '上海东站': '东方枢纽上海东站', '上海南站': '上海南站',
+            '北京通州': '北京城市副中心站', '北京丰台': '丰台站',
+            '重庆东站': '重庆东站', '西安东站': '西安东站',
+            '广州白云站': '广州白云站', '广州南站': '广州南站',
+            '苏州北站': '苏州北站', '南京北站': '南京北站', '南京南站': '南京南站',
+            '绍兴北站': '绍兴高铁北站', '石家庄北站': '石家庄北站', '太原站': '太原站',
+            '千佛山站': '济南千佛山站', '京溪路站': '京溪路站',
+            '横沥': '南沙横沥TOD', '槎头': '白云槎头车辆段',
+            '鱼珠': '鱼珠车辆段', '双岗': '双岗停车场',
+            '东风站': '从化东风站', '霍营': '霍营综合交通枢纽',
+            '深圳北站': '深圳北站', '成都东站': '成都东站', '武汉站': '武汉站',
+            '杭州西站': '杭州西站', '郑州东站': '郑州东站', '长沙南站': '长沙南站',
+            '南昌东站': '南昌东站', '合肥南站': '合肥南站', '昆明南站': '昆明南站',
+            '贵阳北站': '贵阳北站', '南宁东站': '南宁东站', '福州南站': '福州南站',
+            '厦门北站': '厦门北站', '青岛北站': '青岛北站', '大连北站': '大连北站',
+            '长春西站': '长春西站', '哈尔滨西站': '哈尔滨西站'
+        };
+        function detectProject(title) {
+            for (const [key, projectName] of Object.entries(PROJECT_MAP)) {
+                if (title.includes(key)) return projectName;
+            }
+            return null;
+        }
+        function showToast(msg) {
+            const el = document.getElementById('toast');
+            el.textContent = msg;
+            el.classList.add('show');
+            clearTimeout(el._timer);
+            el._timer = setTimeout(() => el.classList.remove('show'), 2500);
+        }
+        function openProjectTimeline(projectName) {
+            if (!projectName || !allNewsData || allNewsData.length === 0) return;
+            const related = allNewsData.filter(item => {
+                const title = item.标题 || '';
+                for (const [key, pName] of Object.entries(PROJECT_MAP)) {
+                    if (pName === projectName && title.includes(key)) return true;
+                }
+                return false;
+            });
+            related.sort((a, b) => (a.日期 > b.日期 ? -1 : (a.日期 < b.日期 ? 1 : 0)));
+            const modal = document.getElementById('projectModal');
+            const titleEl = document.getElementById('modalTitle');
+            const bodyEl = document.getElementById('modalBody');
+            const footerEl = document.getElementById('modalFooter');
+            titleEl.innerHTML = `📋 项目追踪：${projectName}`;
+            if (related.length === 0) {
+                bodyEl.innerHTML = `<div class="modal-empty">暂无相关新闻</div>`;
+                footerEl.textContent = '';
+            } else {
+                let html = '';
+                related.forEach(item => {
+                    const type = item.类型 || '综合';
+                    const scope = item.范围 || '全国';
+                    const subject = extractSubject(item.关键词);
+                    const areas = extractAreas(item.关键词);
+                    // 显示所有关键词（主体+领域）
+                    const allKw = item.关键词 || [];
+                    const kwTags = allKw.map(k => `<span class="type-tag-sm ${getKeywordClass(k)}">${k}</span>`).join(' ');
+                    html += `
+                        <div class="modal-timeline-item">
+                            <div class="modal-timeline-date">${item.日期 || ''}</div>
+                            <div class="modal-timeline-body">
+                                <div class="title"><a href="${item.链接 || '#'}" target="_blank">${cleanTitle(item.标题)}</a></div>
+                                <span class="type-tag-sm">${subject}</span>
+                                ${kwTags}
+                                <span class="scope-tag-sm">${scope}</span>
+                            </div>
+                        </div>
+                    `;
+                });
+                bodyEl.innerHTML = html;
+                footerEl.textContent = `共 ${related.length} 条相关新闻`;
+            }
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeModal(e) {
+            if (e && e.target !== e.currentTarget) return;
+            const modal = document.getElementById('projectModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        function animateNumber(el, target, duration) {
+            if (!el) return;
+            const start = 0;
+            const startTime = performance.now();
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                const current = Math.round(start + (target - start) * eased);
+                el.textContent = current;
+                if (progress < 1) requestAnimationFrame(update);
+                else el.textContent = target;
+            }
+            requestAnimationFrame(update);
+        }
+
+        // ============================================================
+        // 筛选与分页
+        // ============================================================
+        function getFilteredData() {
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toLowerCase();
+            const scopeFilter = document.getElementById('scopeFilter').value;
+            const subjectFilter = document.getElementById('subjectFilter').value;
+            const areaFilter = document.getElementById('areaFilter').value;
+
+            return allNewsData.filter(item => {
+                const title = cleanTitle(item.标题 || '');
+                const media = getMediaName(item);
+                const scope = item.范围 || '全国';
+                const keywords = item.关键词 || [];
+                const date = item.日期 || '';
+                const subject = extractSubject(keywords);
+                const areas = extractAreas(keywords);
+
+                if (filter) {
+                    const text = (title + media).toLowerCase();
+                    if (text.indexOf(filter) === -1) return false;
+                }
+                if (scopeFilter !== 'all' && scope !== scopeFilter) return false;
+                if (subjectFilter !== 'all') {
+                    if (subject !== subjectFilter) return false;
+                }
+                if (areaFilter !== 'all') {
+                    if (!areas.includes(areaFilter)) return false;
+                }
+                if (archiveMonth) {
+                    if (!date.startsWith(archiveMonth)) return false;
+                }
+                if (showFavoritesOnly) {
+                    if (!isFavorited(item)) return false;
+                }
+                return true;
+            });
+        }
+
+        function renderPage() {
+            const filtered = getFilteredData();
+            const total = filtered.length;
+            totalPages = Math.max(1, Math.ceil(total / pageSize));
+            if (currentPage > totalPages) currentPage = totalPages;
+            if (currentPage < 1) currentPage = 1;
+
+            const start = (currentPage - 1) * pageSize;
+            const end = Math.min(start + pageSize, total);
+            const pageData = filtered.slice(start, end);
+
+            const tbody = document.getElementById('newsTable');
+            if (total === 0) {
+                let msg = '📭 暂无匹配的新闻';
+                if (showFavoritesOnly) msg = '⭐ 暂无收藏的新闻，点击 ⭐ 收藏喜欢的新闻吧！';
+                tbody.innerHTML = `<tr><td colspan="7" class="empty-msg">${msg}</td></tr>`;
+                updatePagination(total);
+                document.getElementById('countTip').textContent = '共 0 条';
+                return;
+            }
+
+            tbody.innerHTML = '';
+            pageData.forEach((item, index) => {
+                const globalIndex = start + index + 1;
+                const scope = item.范围 || '全国';
+                const scopeClass = scope === '世界' ? 'scope-world' : scope === '广东省' ? 'scope-guangdong' : scope === '广州市' ? 'scope-guangzhou' : 'scope-national';
+                const keywords = item.关键词 || [];
+                const subject = extractSubject(keywords);
+                const subjectClass = getSubjectClass(subject);
+                // 关键词列显示所有关键词（主体词+领域词），用统一的标签样式
+                const kwHtml = keywords.map(k => `<span class="kw-tag ${getKeywordClass(k)}">${k}</span>`).join(' ');
+                const project = detectProject(item.标题 || '');
+                let trackBtn = '';
+                if (project) {
+                    trackBtn = `<span class="track-btn" onclick="openProjectTimeline('${project}')">📌 追踪</span>`;
+                }
+                const favorited = isFavorited(item);
+                const starIcon = favorited ? '⭐' : '☆';
+                const starClass = favorited ? 'active' : '';
+                const cleanedTitle = cleanTitle(item.标题 || '');
+                const cleanedMedia = getMediaName(item);
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="num" data-label="#">${globalIndex}</td>
+                    <td class="date" data-label="日期">${item.日期 || ''}</td>
+                    <td class="scope-col" data-label="范围"><span class="scope-badge ${scopeClass}">${scope}</span></td>
+                    <td class="subject-col" data-label="主体"><span class="subject-badge ${subjectClass}">${subject}</span></td>
+                    <td class="ttl" data-label="标题">
+                        <a href="${item.链接 || '#'}" target="_blank">${cleanedTitle}</a>
+                        ${trackBtn}
+                        <button class="star-btn ${starClass}" onclick="toggleFavoriteItem(this, '${encodeURIComponent(JSON.stringify(item))}')" title="收藏">${starIcon}</button>
+                    </td>
+                    <td class="media" data-label="来源">${cleanedMedia}</td>
+                    <td class="kw-cell" data-label="关键词">${kwHtml}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            document.getElementById('totalCount').textContent = total;
+            document.getElementById('countTip').textContent = '共 ' + total + ' 条';
+            updatePagination(total);
+            updateFavoriteBadge();
+        }
+
+        function toggleFavoriteItem(btn, encodedItem) {
+            try {
+                const item = JSON.parse(decodeURIComponent(encodedItem));
+                toggleFavorite(item);
+                const favorited = isFavorited(item);
+                btn.textContent = favorited ? '⭐' : '☆';
+                btn.classList.toggle('active', favorited);
+            } catch(e) { console.error('收藏失败:', e); }
+        }
+
+        function updatePagination(total) {
+            const info = document.getElementById('pageInfo');
+            if (total === 0) {
+                info.textContent = '共 0 条，第 1 / 1 页';
+            } else {
+                const start = (currentPage - 1) * pageSize + 1;
+                const end = Math.min(currentPage * pageSize, total);
+                info.textContent = `共 ${total} 条，第 ${currentPage} / ${totalPages} 页 (${start} - ${end} 条)`;
+            }
+            document.getElementById('firstPageBtn').disabled = currentPage <= 1;
+            document.getElementById('prevPageBtn').disabled = currentPage <= 1;
+            document.getElementById('nextPageBtn').disabled = currentPage >= totalPages;
+            document.getElementById('lastPageBtn').disabled = currentPage >= totalPages;
+
+            let pageHtml = '';
+            const maxVisible = 7;
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+            let endPage = Math.min(totalPages, startPage + maxVisible - 1);
+            if (endPage - startPage < maxVisible - 1) {
+                startPage = Math.max(1, endPage - maxVisible + 1);
+            }
+            if (startPage > 1) {
+                pageHtml += `<button onclick="goToPage(1)">1</button>`;
+                if (startPage > 2) pageHtml += `<span style="color:var(--muted);padding:0 4px;">…</span>`;
+            }
+            for (let i = startPage; i <= endPage; i++) {
+                pageHtml += `<button onclick="goToPage(${i})" class="${i === currentPage ? 'active' : ''}">${i}</button>`;
+            }
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) pageHtml += `<span style="color:var(--muted);padding:0 4px;">…</span>`;
+                pageHtml += `<button onclick="goToPage(${totalPages})">${totalPages}</button>`;
+            }
+            document.getElementById('pageNumbers').innerHTML = pageHtml;
+            document.getElementById('jumpInput').max = totalPages || 1;
+            document.getElementById('jumpInput').value = currentPage;
+        }
+
+        function goToPage(page) {
+            if (page < 1) page = 1;
+            if (page > totalPages) page = totalPages;
+            if (page === currentPage) return;
+            currentPage = page;
+            renderPage();
+            document.querySelector('.table-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function jumpToPage() {
+            const input = document.getElementById('jumpInput');
+            let page = parseInt(input.value);
+            if (isNaN(page) || page < 1) page = 1;
+            if (page > totalPages) page = totalPages;
+            goToPage(page);
+        }
+
+        function onSearchChange() {
+            currentPage = 1;
+            renderPage();
+            renderArchive(allNewsData);
+        }
+
+        function onPageSizeChange() {
+            const select = document.getElementById('pageSizeSelect');
+            pageSize = parseInt(select.value);
+            currentPage = 1;
+            renderPage();
+        }
+
+        // ============================================================
+        // 导出CSV
+        // ============================================================
+        function exportCSV(mode) {
+            let data = [];
+            if (mode === 'filtered') {
+                const filtered = getFilteredData();
+                if (filtered.length === 0) { showToast('当前没有可导出的数据'); return; }
+                data = filtered.map(item => ({
+                    '日期': item.日期 || '',
+                    '范围': item.范围 || '全国',
+                    '主体': extractSubject(item.关键词 || []),
+                    '标题': cleanTitle(item.标题 || ''),
+                    '链接': item.链接 || '#',
+                    '来源': getMediaName(item),
+                    '关键词': (item.关键词 || []).join('、')
+                }));
+            } else {
+                if (!allNewsData || allNewsData.length === 0) { showToast('暂无数据可导出'); return; }
+                data = allNewsData.map(item => ({
+                    '日期': item.日期 || '',
+                    '范围': item.范围 || '全国',
+                    '主体': extractSubject(item.关键词 || []),
+                    '标题': cleanTitle(item.标题 || ''),
+                    '链接': item.链接 || '#',
+                    '来源': getMediaName(item),
+                    '关键词': (item.关键词 || []).join('、')
+                }));
+            }
+
+            const headers = ['日期', '范围', '主体', '标题', '链接', '来源', '关键词'];
+            let csv = '\uFEFF' + headers.join(',') + '\n';
+            data.forEach(row => {
+                const cols = headers.map(h => {
+                    let val = row[h] || '';
+                    val = val.replace(/"/g, '""');
+                    if (val.includes(',') || val.includes('\n') || val.includes('"')) {
+                        val = '"' + val + '"';
+                    }
+                    return val;
+                });
+                csv += cols.join(',') + '\n';
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const dateStr = new Date().toISOString().slice(0, 10);
+            link.download = `轨道交通新闻_${dateStr}_${mode === 'filtered' ? '筛选' : '全部'}.csv`;
+            link.href = URL.createObjectURL(blob);
+            link.click();
+            URL.revokeObjectURL(link.href);
+            showToast(`✅ 导出成功！共 ${data.length} 条数据`);
+        }
+
+        // ============================================================
+        // 月份归档
+        // ============================================================
+        function renderArchive(data) {
+            const container = document.getElementById('archiveList');
+            if (!data || data.length === 0) {
+                container.innerHTML = '<span style="color:var(--muted);font-size:13px;">暂无数据</span>';
+                return;
+            }
+            const monthMap = {};
+            data.forEach(item => {
+                const date = item.日期 || '';
+                if (!date) return;
+                const month = date.substring(0, 7);
+                if (!monthMap[month]) monthMap[month] = 0;
+                monthMap[month]++;
+            });
+            const sortedMonths = Object.keys(monthMap).sort((a, b) => b.localeCompare(a));
+            let html = '';
+            html += `<span class="archive-item ${archiveMonth === '' ? 'active' : ''}" onclick="filterByMonth('')">📅 全部</span>`;
+            sortedMonths.forEach(month => {
+                const count = monthMap[month];
+                const [year, m] = month.split('-');
+                const label = `${year}年${parseInt(m)}月`;
+                const active = archiveMonth === month ? 'active' : '';
+                html += `<span class="archive-item ${active}" onclick="filterByMonth('${month}')">${label} <span class="count">(${count})</span></span>`;
+            });
+            container.innerHTML = html;
+            const clearBtn = document.getElementById('archiveClearBtn');
+            if (archiveMonth) {
+                clearBtn.style.display = 'inline-block';
+                const [y, m] = archiveMonth.split('-');
+                clearBtn.textContent = `✕ 清除 (${y}年${parseInt(m)}月)`;
+            } else {
+                clearBtn.style.display = 'none';
+            }
+        }
+        function filterByMonth(month) {
+            if (archiveMonth === month) { archiveMonth = ''; } else { archiveMonth = month; }
+            currentPage = 1;
+            renderPage();
+            renderArchive(allNewsData);
+        }
+        function clearArchiveFilter() {
+            archiveMonth = '';
+            currentPage = 1;
+            renderPage();
+            renderArchive(allNewsData);
+        }
+
+        // ============================================================
+        // 统计卡片与图表
+        // ============================================================
+        function renderNews(data) {
+            allNewsData = data;
+            document.getElementById('totalCount').textContent = data.length;
+            document.getElementById('lastUpdate').textContent = new Date().toLocaleDateString('zh-CN');
+            currentPage = 1;
+            updateFavoriteBadge();
+            updateViewLabel();
+            renderArchive(data);
+            renderPage();
+        }
+
+        function generateStats(data) {
+            if (!data || data.length === 0) return;
+
+            const subjectCount = { '国铁': 0, '铁路': 0, '城际': 0, '地铁': 0 };
+            data.forEach(item => {
+                const subject = extractSubject(item.关键词 || []);
+                if (subjectCount[subject] !== undefined) subjectCount[subject] = (subjectCount[subject] || 0) + 1;
+            });
+
+            const subjectContainer = document.getElementById('statsSubject');
+            subjectContainer.innerHTML = '';
+            const subjectLabels = ['国铁', '铁路', '城际', '地铁'];
+            subjectLabels.forEach((label) => {
+                const val = subjectCount[label] || 0;
+                const div = document.createElement('div');
+                div.className = 'stat';
+                const emoji = label === '国铁' ? '🚄' : label === '铁路' ? '🚂' : label === '城际' ? '🚆' : '🚇';
+                div.innerHTML = `<div class="n" data-target="${val}">0</div><div class="l">${emoji} ${label}</div>`;
+                div.onclick = function() {
+                    const select = document.getElementById('subjectFilter');
+                    for (let i = 0; i < select.options.length; i++) {
+                        if (select.options[i].value === label) {
+                            select.value = label;
+                            break;
+                        }
+                    }
+                    onSearchChange();
+                };
+                subjectContainer.appendChild(div);
+            });
+
+            const scopeCount = { '世界': 0, '全国': 0, '广东省': 0, '广州市': 0 };
+            data.forEach(item => {
+                const scope = item.范围 || '全国';
+                if (scopeCount[scope] !== undefined) scopeCount[scope] = (scopeCount[scope] || 0) + 1;
+            });
+
+            const containerScope = document.getElementById('statsScope');
+            containerScope.innerHTML = '';
+            const scopeLabels = ['世界', '全国', '广东省', '广州市'];
+            scopeLabels.forEach((label) => {
+                const val = scopeCount[label] || 0;
+                const div = document.createElement('div');
+                div.className = 'stat';
+                const emoji = label === '世界' ? '🌐' : label === '全国' ? '🇨🇳' : label === '广东省' ? '📗' : '📙';
+                div.innerHTML = `<div class="n" data-target="${val}">0</div><div class="l">${emoji} ${label}</div>`;
+                div.onclick = function() {
+                    const select = document.getElementById('scopeFilter');
+                    for (let i = 0; i < select.options.length; i++) {
+                        if (select.options[i].value === label) {
+                            select.value = label;
+                            break;
+                        }
+                    }
+                    onSearchChange();
+                };
+                containerScope.appendChild(div);
+            });
+
+            setTimeout(() => {
+                document.querySelectorAll('#statsSubject .n, #statsScope .n').forEach(el => {
+                    const target = parseInt(el.getAttribute('data-target')) || 0;
+                    animateNumber(el, target, 600);
+                });
+            }, 200);
+        }
+
+        function generateCharts(data) {
+            if (!data || data.length === 0) return;
+            const mediaCategoryMap = {
+                '人民网': '中央媒体', '新华网': '中央媒体', '光明网': '中央媒体', '央广网': '中央媒体',
+                '人民日报': '中央媒体', '中国网': '中央媒体', '中国青年报': '中央媒体', '北京日报': '中央媒体',
+                '北京电视台': '中央媒体', '中工网': '中央媒体', '中国甘肃网': '中央媒体', '中国城市网': '中央媒体',
+                '人民数字联播网': '中央媒体', '人民日报客户端': '中央媒体', '新华社': '中央媒体',
+                '国务院新闻办': '中央媒体', '交通运输部': '中央媒体',
+                '人民铁道报': '行业媒体', '中国交通报': '行业媒体',
+                '南方日报': '地方媒体', '南方都市报': '地方媒体', '广州日报': '地方媒体',
+                '大洋网（广州日报）': '地方媒体', '大洋网': '地方媒体', '深圳新闻网': '地方媒体',
+                '深圳特区报': '地方媒体', '重庆日报': '地方媒体', '羊城晚报': '地方媒体',
+                '广州日报新花城': '地方媒体', '新湖南': '地方媒体', '湖北日报': '地方媒体',
+                '长江网': '地方媒体', '长沙晚报': '地方媒体', '四川网络广播电视台': '地方媒体',
+                '华西都市报': '地方媒体', '陕西日报': '地方媒体', '沈阳网': '地方媒体',
+                '彩练新闻': '地方媒体', '中国吉林网': '地方媒体', '川观新闻': '地方媒体',
+                '河北新闻网': '地方媒体', '河工新闻网': '地方媒体', '乌海日报': '地方媒体',
+                '湛江日报': '地方媒体', '广东建设报': '地方媒体', '黑龙江日报': '地方媒体',
+                '济南日报': '地方媒体', '南京日报': '地方媒体', '天津广播': '地方媒体',
+                '瓯海发布': '地方媒体', '澎湃新闻': '地方媒体', '上观新闻': '地方媒体',
+                '香港商报': '地方媒体',
+                '腾讯新闻': '商业/门户媒体', '搜狐（南方+）': '商业/门户媒体', '搜狐新闻': '商业/门户媒体',
+                '网易新闻': '商业/门户媒体', '新浪新闻': '商业/门户媒体', '百度百家号': '商业/门户媒体',
+                '观点网': '商业/门户媒体',
+                '东方财富': '财经媒体', '中国经营报': '财经媒体', '中国发展网': '财经媒体',
+                '中国产业经济信息网': '财经媒体', '企业观察网': '财经媒体',
+                '中国TOD网': '行业媒体', '中国轨道交通网': '行业媒体', '中国城市轨道交通网': '行业媒体',
+                '中国城市轨道交通协会': '行业媒体', '世界轨道交通资讯网': '行业媒体',
+                '中国建筑': '行业媒体', '中国经济新闻网': '行业媒体', '中国中铁': '行业媒体',
+                '广州市政府网': '政务平台', '广州市规划局': '政务平台', '广州市规划和自然资源局': '政务平台',
+                '广州市交通运输局': '政务平台', '广州市发改委': '政务平台',
+                '广东省政府网': '政务平台', '广东省发改委': '政务平台', '广东省交通运输厅': '政务平台',
+                '天津政务网': '政务平台', '天津轨道交通集团': '政务平台',
+                '北京市规自委': '政务平台', '北京市政府网': '政务平台',
+                '重庆市政府网': '政务平台', '重庆市交通运输委员会': '政务平台',
+                '沈阳市政府网': '政务平台', '济南市政府网': '政务平台',
+                '山东省交通运输厅': '政务平台', '浙江省交通运输厅': '政务平台',
+                '杭州市政府网': '政务平台', '江苏省政府网': '政务平台',
+                '南京市规划和自然资源局': '政务平台', '苏州市政府网': '政务平台',
+                '山西省政府网': '政务平台', '河南省政府网': '政务平台',
+                '从化区政府网': '政务平台', '广西交通投资集团': '政务平台',
+                '欧盟委员会': '国际/其他', 'Global Construction Review': '国际/其他',
+                'International Railway Journal': '国际/其他', 'UITP': '国际/其他',
+                'China Daily': '国际/其他', 'Vietnam.vn': '国际/其他',
+                'The Standard': '国际/其他', 'JR东日本': '国际/其他',
+                '美国联邦铁路管理局': '国际/其他', '新加坡LTA': '国际/其他',
+                '德国铁路DB': '国际/其他', '墨西哥城政府官网': '国际/其他',
+                '伦敦交通局': '国际/其他',
+                '百度百科': '其他',
+            };
+            function getMediaCategory(source) {
+                if (mediaCategoryMap[source]) return mediaCategoryMap[source];
+                for (const [key, category] of Object.entries(mediaCategoryMap)) {
+                    if (source.includes(key) || key.includes(source)) return category;
+                }
+                return '其他';
+            }
+            const colorPalette = ['#1a6a7a', '#c05a3a', '#2a6ab0', '#3a9a6a', '#8a5aaa', '#d08a2a', '#a06a5a', '#b84a6a'];
+            const catCount = {};
+            data.forEach(item => {
+                const source = getMediaName(item);
+                const category = getMediaCategory(source);
+                catCount[category] = (catCount[category] || 0) + 1;
+            });
+            const sortedCats = Object.entries(catCount).sort((a, b) => b[1] - a[1]);
+            const maxCat = sortedCats.length > 0 ? sortedCats[0][1] : 1;
+            const mediaChart = document.getElementById('mediaChart');
+            mediaChart.innerHTML = '<h3>📰 媒体来源分布（按类别）</h3>';
+            if (sortedCats.length === 0) {
+                mediaChart.innerHTML += '<div style="text-align:center;color:var(--muted);padding:20px;">暂无数据</div>';
+                return;
+            }
+            sortedCats.forEach(([category, count], index) => {
+                const pct = Math.round(count / maxCat * 100);
+                const color = colorPalette[index % colorPalette.length];
+                mediaChart.innerHTML += `
+                    <div class="chart-bar-row">
+                        <span class="chart-bar-label">${category}</span>
+                        <div class="chart-bar-track">
+                            <div class="chart-bar-fill" style="width:${pct}%;background:${color};"></div>
+                        </div>
+                        <span class="chart-bar-n">${count}</span>
+                    </div>
+                `;
+            });
+
+            const areaCount = {};
+            data.forEach(item => {
+                const areas = extractAreas(item.关键词 || []);
+                areas.forEach(a => { areaCount[a] = (areaCount[a] || 0) + 1; });
+            });
+            const sortedAreas = Object.entries(areaCount).sort((a, b) => b[1] - a[1]).slice(0, 8);
+            const maxArea = sortedAreas.length > 0 ? sortedAreas[0][1] : 1;
+            const kwChart = document.getElementById('keywordChart');
+            kwChart.innerHTML = '<h3>🏷️ 领域关键词热度</h3>';
+            sortedAreas.forEach(([label, count], index) => {
+                const pct = Math.round(count / maxArea * 100);
+                const color = colorPalette[(index + 4) % colorPalette.length];
+                kwChart.innerHTML += `
+                    <div class="chart-bar-row">
+                        <span class="chart-bar-label">${label}</span>
+                        <div class="chart-bar-track">
+                            <div class="chart-bar-fill" style="width:${pct}%;background:${color};"></div>
+                        </div>
+                        <span class="chart-bar-n">${count}</span>
+                    </div>
+                `;
+            });
+        }
+
+        function generateQuarterlySummary(data) {
+            if (!data || data.length === 0) return;
+            const qMap = {};
+            data.forEach(item => {
+                const date = item.日期 || '';
+                if (!date) return;
+                const parts = date.split('-');
+                if (parts.length < 2) return;
+                const year = parts[0];
+                const month = parseInt(parts[1], 10);
+                const q = Math.ceil(month / 3);
+                const key = `${year}年Q${q}`;
+                if (!qMap[key]) {
+                    qMap[key] = {
+                        count: 0,
+                        scopes: new Set(),
+                        titles: [],
+                        sources: [],
+                        subjects: [],
+                        areas: [],
+                        projects: new Map(),
+                    };
+                }
+                qMap[key].count++;
+                qMap[key].scopes.add(item.范围 || '全国');
+                if (item.来源) qMap[key].sources.push(getMediaName(item));
+                const subject = extractSubject(item.关键词 || []);
+                if (subject) qMap[key].subjects.push(subject);
+                const areas = extractAreas(item.关键词 || []);
+                areas.forEach(a => qMap[key].areas.push(a));
+                qMap[key].titles.push(item.标题 || '');
+                const title = item.标题 || '';
+                for (const [keyWord, projectName] of Object.entries(PROJECT_MAP)) {
+                    if (title.includes(keyWord)) {
+                        qMap[key].projects.set(projectName, '');
+                        break;
+                    }
+                }
+            });
+            const container = document.getElementById('quarterlyGrid');
+            container.innerHTML = '';
+            const sortedKeys = Object.keys(qMap).sort((a, b) => {
+                const ya = parseInt(a.split('年')[0]), yb = parseInt(b.split('年')[0]);
+                if (ya !== yb) return yb - ya;
+                const qa = parseInt(a.split('Q')[1]), qb = parseInt(b.split('Q')[1]);
+                return qb - qa;
+            });
+            const endings = [
+                '总体来看，本季度轨道交通综合开发呈现稳步推进态势。',
+                '整体而言，轨道交通综合开发各项工作有序推进。',
+                '综合来看，本季度行业发展态势良好，综合开发持续深化。',
+                '总的来看，轨道交通综合开发领域保持活跃发展势头。'
+            ];
+            sortedKeys.forEach((key, idx) => {
+                const d = qMap[key];
+                const scopes = Array.from(d.scopes);
+                let scopeStr = scopes.join('、');
+                const subjectCount = {};
+                d.subjects.forEach(s => { subjectCount[s] = (subjectCount[s] || 0) + 1; });
+                const topSubjects = Object.entries(subjectCount).sort((a, b) => b[1] - a[1]).slice(0, 2);
+                let subjectStr = topSubjects.map(([s]) => s).join('、') || '轨道交通';
+                const areaCount = {};
+                d.areas.forEach(a => { areaCount[a] = (areaCount[a] || 0) + 1; });
+                const topAreas = Object.entries(areaCount).sort((a, b) => b[1] - a[1]).slice(0, 3);
+                let areaStr = topAreas.map(([a]) => a).join('、') || '综合开发';
+                const projectNames = Array.from(d.projects.keys());
+                let projectStr = projectNames.length > 0 ? projectNames.slice(0, 2).join('、') : '';
+                const year = key.split('年')[0];
+                const quarterNum = key.replace(year + '年Q', '');
+                const quarterMap = {'1': '第一', '2': '第二', '3': '第三', '4': '第四'};
+                const quarterText = quarterMap[quarterNum] || quarterNum;
+                let summary = `${year}年${quarterText}季度，${scopeStr}轨道交通领域共收录${d.count}条新闻。`;
+                if (projectStr) {
+                    summary += ` 涉及${projectStr}等项目。`;
+                }
+                summary += ` ${subjectStr}是主要关注主体，${areaStr}是核心领域。`;
+                summary += ' ' + endings[idx % endings.length];
+                const div = document.createElement('div');
+                div.className = 'quarter-card';
+                div.innerHTML = `
+                    <div class="quarter-header">
+                        <span class="quarter-label">📊 ${key}</span>
+                        <span class="quarter-count">${d.count} 条</span>
+                    </div>
+                    <div class="quarter-summary-text">${summary}</div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // ============================================================
+        // 深色模式、回到顶部、初始化
+        // ============================================================
+        function toggleTheme() {
+            const html = document.documentElement;
+            const btn = document.getElementById('themeToggle');
+            if (html.getAttribute('data-theme') === 'dark') {
+                html.setAttribute('data-theme', 'light');
+                btn.innerHTML = '🌙';
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                btn.innerHTML = '☀️';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+        (function() {
+            const saved = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', saved);
+            document.getElementById('themeToggle').innerHTML = saved === 'dark' ? '☀️' : '🌙';
+        })();
+
+        window.onscroll = function() {
+            const btn = document.getElementById('backToTop');
+            if (window.scrollY > 400) btn.classList.add('show');
+            else btn.classList.remove('show');
+        };
+
+        window.onload = function() {
+            fetch('news_data.json?_=' + Date.now())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status} - ${response.statusText}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        renderNews(data);
+        generateStats(data);
+        generateCharts(data);
+        generateQuarterlySummary(data);
+    })
+    .catch(error => {
+        console.error('加载失败:', error);
+        let errorMsg = error.message;
+        // 如果错误包含 JSON 解析错误，提示更明确
+        if (errorMsg.includes('Unexpected token') || errorMsg.includes('JSON')) {
+            errorMsg = '数据文件格式损坏（JSON 解析失败），请检查 news_data.json 是否合法。';
+        }
+        document.getElementById('newsTable').innerHTML =
+            `<tr><td colspan="7" class="error-msg">⚠️ 数据加载失败：${errorMsg}</td></tr>`;
+        document.getElementById('lastUpdate').textContent = '暂无数据';
+        document.getElementById('countTip').textContent = '共 0 条';
+        updatePagination(0);
+    });
+        };
+    </script>
+</body>
+</html>
