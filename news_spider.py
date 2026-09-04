@@ -9,43 +9,40 @@ import logging
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-# ===== 关键词过滤（和原来完全一样） =====
+# ===== 关键词过滤 =====
 KEYWORD_FILTERS = ['TOD', '综合开发', '枢纽', '城际', '地铁', '轨道', '铁路', '站城', '高铁', '轨道交通', '上盖', '国铁']
 
-# ===== 唯一改动：从 sources.json 读取数据源（原来写死在代码里） =====
+# ===== 从 sources.json 读取数据源 =====
 def load_sources():
     try:
         with open('sources.json', 'r', encoding='utf-8') as f:
-            sources = json.load(f)
-        # 兼容新旧格式：如果来源里有 limit_per_page 就用它，否则用 limit
-        for src in sources:
-            if 'limit_per_page' in src and 'limit' not in src:
-                src['limit'] = src['limit_per_page']
-        return sources
+            return json.load(f)
     except Exception as e:
         logging.error(f"读取 sources.json 失败: {e}")
-        # 如果读不了，用原来写死的几个
+        # 默认使用几个基本数据源
         return [
             {"name": "百度新闻", "url": "https://news.baidu.com/s?tn=news&word=TOD", "select": "div.result a", "limit": 15, "pages": 1},
             {"name": "360新闻", "url": "https://news.so.com/ns?q=%E5%9C%B0%E9%93%81%20TOD", "select": "li.res-list a", "limit": 12, "pages": 1},
-            {"name": "搜狗新闻", "url": "https://news.sogou.com/news?query=%E8%BD%A8%E9%81%93%E4%BA%A4%E9%80%9A", "select": "div.news-list h3 a", "limit": 10, "pages": 1},
         ]
 
 def fetch_news():
-    logging.info("🤖 爬虫启动（原版框架）")
+    logging.info("🤖 爬虫启动（无摘要版）")
     
-    # ===== 读取旧数据（和原来完全一样） =====
+    # ===== 读取旧数据 =====
     try:
         with open('news_data.json', 'r', encoding='utf-8') as f:
             all_news = json.load(f)
-        logging.info(f"📚 已有 {len(all_news)} 条数据")
-    except:
+        logging.info(f"📚 成功读取 {len(all_news)} 条历史数据")
+    except FileNotFoundError:
         all_news = []
-        logging.info("📚 从零开始")
+        logging.info("📚 没有历史数据，从零开始")
+    except json.JSONDecodeError:
+        logging.error("❌ news_data.json 格式错误，请手动修复！")
+        return
     
     existing_keys = {item["标题"][:20] + item.get("链接", "")[:50] for item in all_news}
     
-    # ===== 加载数据源（唯一改动的地方） =====
+    # ===== 加载数据源 =====
     sources = load_sources()
     logging.info(f"📡 加载 {len(sources)} 个数据源")
     
@@ -98,14 +95,14 @@ def fetch_news():
                             continue
                         existing_keys.add(key)
                         
-                        # 范围判断（和原来完全一样）
+                        # 范围判断
                         scope = "全国"
                         if "广州" in title:
                             scope = "广州市"
                         elif any(w in title for w in ["广东", "深圳", "佛山", "东莞"]):
                             scope = "广东省"
                         
-                        # 类型判断（和原来完全一样）
+                        # 类型判断
                         news_type = "综合"
                         type_keywords = {
                             "项目建设进展": ["封顶", "开工", "竣工", "通车", "开通", "投运", "动工", "建设", "进展", "完成", "交付", "贯通"],
@@ -120,7 +117,7 @@ def fetch_news():
                                 news_type = t
                                 break
                         
-                        # 关键词（和原来完全一样）
+                        # 关键词
                         keywords = []
                         kw_map = {
                             '国铁': ['高铁', '铁路', '国铁'],
@@ -138,6 +135,7 @@ def fetch_news():
                         if not keywords:
                             keywords = ["轨道"]
                         
+                        # ===== 关键改动：没有摘要字段！ =====
                         all_news.append({
                             "日期": datetime.now().strftime("%Y-%m-%d"),
                             "标题": title,
@@ -145,13 +143,13 @@ def fetch_news():
                             "来源": name,
                             "范围": scope,
                             "关键词": keywords,
-                            "摘要": title[:80],
                             "类型": news_type
                         })
                         count += 1
                         new_count += 1
                         time.sleep(random.uniform(0.2, 0.5))
-                    except:
+                    except Exception as e:
+                        logging.debug(f"处理条目失败: {e}")
                         continue
                 
                 logging.info(f"✅ {name} 第 {page} 页新增 {count} 条")
