@@ -1,0 +1,42 @@
+name: 每周自动抓取新闻（增量追加版）
+
+on:
+  schedule:
+    - cron: '0 8 * * 1'
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: 安装依赖
+        run: pip install requests beautifulsoup4
+
+      - name: 运行爬虫
+        run: python news_spider.py
+
+      - name: 检查并提交（只有文件变大才提交）
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+          
+          OLD_LINES=$(git show HEAD:news_data.json 2>/dev/null | wc -l || echo "0")
+          NEW_LINES=$(cat news_data.json 2>/dev/null | wc -l || echo "0")
+          
+          if [ "$NEW_LINES" -le "$OLD_LINES" ]; then
+            echo "📭 文件没有变大，无新增数据，跳过提交"
+            git checkout -- news_data.json
+            exit 0
+          fi
+          
+          git add news_data.json
+          git commit -m "🤖 增量追加新闻 $(date +'%Y-%m-%d')"
+          git push
+          echo "✅ 已提交新增数据"
