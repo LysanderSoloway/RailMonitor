@@ -1986,114 +1986,119 @@
         }
 
         function generateCharts(data) {
-            if (!data || data.length === 0) return;
-            const mediaCategoryMap = {
-                '人民网': '中央媒体', '新华网': '中央媒体', '光明网': '中央媒体', '央广网': '中央媒体',
-                '人民日报': '中央媒体', '中国网': '中央媒体', '中国青年报': '中央媒体', '北京日报': '中央媒体',
-                '北京电视台': '中央媒体', '中工网': '中央媒体', '中国甘肃网': '中央媒体', '中国城市网': '中央媒体',
-                '人民数字联播网': '中央媒体', '人民日报客户端': '中央媒体', '新华社': '中央媒体',
-                '国务院新闻办': '中央媒体', '交通运输部': '中央媒体',
-                '人民铁道报': '行业媒体', '中国交通报': '行业媒体',
-                '南方日报': '地方媒体', '南方都市报': '地方媒体', '广州日报': '地方媒体',
-                '大洋网（广州日报）': '地方媒体', '大洋网': '地方媒体', '深圳新闻网': '地方媒体',
-                '深圳特区报': '地方媒体', '重庆日报': '地方媒体', '羊城晚报': '地方媒体',
-                '广州日报新花城': '地方媒体', '新湖南': '地方媒体', '湖北日报': '地方媒体',
-                '长江网': '地方媒体', '长沙晚报': '地方媒体', '四川网络广播电视台': '地方媒体',
-                '华西都市报': '地方媒体', '陕西日报': '地方媒体', '沈阳网': '地方媒体',
-                '彩练新闻': '地方媒体', '中国吉林网': '地方媒体', '川观新闻': '地方媒体',
-                '河北新闻网': '地方媒体', '河工新闻网': '地方媒体', '乌海日报': '地方媒体',
-                '湛江日报': '地方媒体', '广东建设报': '地方媒体', '黑龙江日报': '地方媒体',
-                '济南日报': '地方媒体', '南京日报': '地方媒体', '天津广播': '地方媒体',
-                '瓯海发布': '地方媒体', '澎湃新闻': '地方媒体', '上观新闻': '地方媒体',
-                '香港商报': '地方媒体',
-                '腾讯新闻': '商业/门户媒体', '搜狐（南方+）': '商业/门户媒体', '搜狐新闻': '商业/门户媒体',
-                '网易新闻': '商业/门户媒体', '新浪新闻': '商业/门户媒体', '百度百家号': '商业/门户媒体',
-                '观点网': '商业/门户媒体',
-                '东方财富': '财经媒体', '中国经营报': '财经媒体', '中国发展网': '财经媒体',
-                '中国产业经济信息网': '财经媒体', '企业观察网': '财经媒体',
-                '中国TOD网': '行业媒体', '中国轨道交通网': '行业媒体', '中国城市轨道交通网': '行业媒体',
-                '中国城市轨道交通协会': '行业媒体', '世界轨道交通资讯网': '行业媒体',
-                '中国建筑': '行业媒体', '中国经济新闻网': '行业媒体', '中国中铁': '行业媒体',
-                '广州市政府网': '政务平台', '广州市规划局': '政务平台', '广州市规划和自然资源局': '政务平台',
-                '广州市交通运输局': '政务平台', '广州市发改委': '政务平台',
-                '广东省政府网': '政务平台', '广东省发改委': '政务平台', '广东省交通运输厅': '政务平台',
-                '天津政务网': '政务平台', '天津轨道交通集团': '政务平台',
-                '北京市规自委': '政务平台', '北京市政府网': '政务平台',
-                '重庆市政府网': '政务平台', '重庆市交通运输委员会': '政务平台',
-                '沈阳市政府网': '政务平台', '济南市政府网': '政务平台',
-                '山东省交通运输厅': '政务平台', '浙江省交通运输厅': '政务平台',
-                '杭州市政府网': '政务平台', '江苏省政府网': '政务平台',
-                '南京市规划和自然资源局': '政务平台', '苏州市政府网': '政务平台',
-                '山西省政府网': '政务平台', '河南省政府网': '政务平台',
-                '从化区政府网': '政务平台', '广西交通投资集团': '政务平台',
-                '欧盟委员会': '国际/其他', 'Global Construction Review': '国际/其他',
-                'International Railway Journal': '国际/其他', 'UITP': '国际/其他',
-                'China Daily': '国际/其他', 'Vietnam.vn': '国际/其他',
-                'The Standard': '国际/其他', 'JR东日本': '国际/其他',
-                '美国联邦铁路管理局': '国际/其他', '新加坡LTA': '国际/其他',
-                '德国铁路DB': '国际/其他', '墨西哥城政府官网': '国际/其他',
-                '伦敦交通局': '国际/其他',
-                '百度百科': '其他',
-            };
-            function getMediaCategory(source) {
-                if (mediaCategoryMap[source]) return mediaCategoryMap[source];
-                for (const [key, category] of Object.entries(mediaCategoryMap)) {
-                    if (source.includes(key) || key.includes(source)) return category;
-                }
-                return '其他';
-            }
-            const colorPalette = ['#1a6a7a', '#c05a3a', '#2a6ab0', '#3a9a6a', '#8a5aaa', '#d08a2a', '#a06a5a', '#b84a6a'];
-            const catCount = {};
-            data.forEach(item => {
-                const source = getMediaName(item);
-                const category = getMediaCategory(source);
-                catCount[category] = (catCount[category] || 0) + 1;
-            });
-            const sortedCats = Object.entries(catCount).sort((a, b) => b[1] - a[1]);
-            const maxCat = sortedCats.length > 0 ? sortedCats[0][1] : 1;
-            const mediaChart = document.getElementById('mediaChart');
-            mediaChart.innerHTML = '<h3>📰 媒体来源分布（按类别）</h3>';
-            if (sortedCats.length === 0) {
-                mediaChart.innerHTML += '<div style="text-align:center;color:var(--muted);padding:20px;">暂无数据</div>';
-                return;
-            }
-            sortedCats.forEach(([category, count], index) => {
-                const pct = Math.round(count / maxCat * 100);
-                const color = colorPalette[index % colorPalette.length];
-                mediaChart.innerHTML += `
-                    <div class="chart-bar-row">
-                        <span class="chart-bar-label">${category}</span>
-                        <div class="chart-bar-track">
-                            <div class="chart-bar-fill" style="width:${pct}%;background:${color};"></div>
-                        </div>
-                        <span class="chart-bar-n">${count}</span>
-                    </div>
-                `;
-            });
-
-            const areaCount = {};
-            data.forEach(item => {
-                const areas = extractAreas(item.关键词 || []);
-                areas.forEach(a => { areaCount[a] = (areaCount[a] || 0) + 1; });
-            });
-            const sortedAreas = Object.entries(areaCount).sort((a, b) => b[1] - a[1]).slice(0, 8);
-            const maxArea = sortedAreas.length > 0 ? sortedAreas[0][1] : 1;
-            const kwChart = document.getElementById('keywordChart');
-            kwChart.innerHTML = '<h3>🏷️ 领域关键词热度</h3>';
-            sortedAreas.forEach(([label, count], index) => {
-                const pct = Math.round(count / maxArea * 100);
-                const color = colorPalette[(index + 4) % colorPalette.length];
-                kwChart.innerHTML += `
-                    <div class="chart-bar-row">
-                        <span class="chart-bar-label">${label}</span>
-                        <div class="chart-bar-track">
-                            <div class="chart-bar-fill" style="width:${pct}%;background:${color};"></div>
-                        </div>
-                        <span class="chart-bar-n">${count}</span>
-                    </div>
-                `;
-            });
+    if (!data || data.length === 0) return;
+    const mediaCategoryMap = {
+        '人民网': '中央媒体', '新华网': '中央媒体', '光明网': '中央媒体', '央广网': '中央媒体',
+        '人民日报': '中央媒体', '中国网': '中央媒体', '中国青年报': '中央媒体', '北京日报': '中央媒体',
+        '北京电视台': '中央媒体', '中工网': '中央媒体', '中国甘肃网': '中央媒体', '中国城市网': '中央媒体',
+        '人民数字联播网': '中央媒体', '人民日报客户端': '中央媒体', '新华社': '中央媒体',
+        '国务院新闻办': '中央媒体', '交通运输部': '中央媒体',
+        '人民铁道报': '行业媒体', '中国交通报': '行业媒体',
+        '南方日报': '地方媒体', '南方都市报': '地方媒体', '广州日报': '地方媒体',
+        '大洋网（广州日报）': '地方媒体', '大洋网': '地方媒体', '深圳新闻网': '地方媒体',
+        '深圳特区报': '地方媒体', '重庆日报': '地方媒体', '羊城晚报': '地方媒体',
+        '广州日报新花城': '地方媒体', '新湖南': '地方媒体', '湖北日报': '地方媒体',
+        '长江网': '地方媒体', '长沙晚报': '地方媒体', '四川网络广播电视台': '地方媒体',
+        '华西都市报': '地方媒体', '陕西日报': '地方媒体', '沈阳网': '地方媒体',
+        '彩练新闻': '地方媒体', '中国吉林网': '地方媒体', '川观新闻': '地方媒体',
+        '河北新闻网': '地方媒体', '河工新闻网': '地方媒体', '乌海日报': '地方媒体',
+        '湛江日报': '地方媒体', '广东建设报': '地方媒体', '黑龙江日报': '地方媒体',
+        '济南日报': '地方媒体', '南京日报': '地方媒体', '天津广播': '地方媒体',
+        '瓯海发布': '地方媒体', '澎湃新闻': '地方媒体', '上观新闻': '地方媒体',
+        '香港商报': '地方媒体',
+        '腾讯新闻': '商业/门户媒体', '搜狐（南方+）': '商业/门户媒体', '搜狐新闻': '商业/门户媒体',
+        '网易新闻': '商业/门户媒体', '新浪新闻': '商业/门户媒体', '百度百家号': '商业/门户媒体',
+        '观点网': '商业/门户媒体',
+        '东方财富': '财经媒体', '中国经营报': '财经媒体', '中国发展网': '财经媒体',
+        '中国产业经济信息网': '财经媒体', '企业观察网': '财经媒体',
+        '中国TOD网': '行业媒体', '中国轨道交通网': '行业媒体', '中国城市轨道交通网': '行业媒体',
+        '中国城市轨道交通协会': '行业媒体', '世界轨道交通资讯网': '行业媒体',
+        '中国建筑': '行业媒体', '中国经济新闻网': '行业媒体', '中国中铁': '行业媒体',
+        '广州市政府网': '政务平台', '广州市规划局': '政务平台', '广州市规划和自然资源局': '政务平台',
+        '广州市交通运输局': '政务平台', '广州市发改委': '政务平台',
+        '广东省政府网': '政务平台', '广东省发改委': '政务平台', '广东省交通运输厅': '政务平台',
+        '天津政务网': '政务平台', '天津轨道交通集团': '政务平台',
+        '北京市规自委': '政务平台', '北京市政府网': '政务平台',
+        '重庆市政府网': '政务平台', '重庆市交通运输委员会': '政务平台',
+        '沈阳市政府网': '政务平台', '济南市政府网': '政务平台',
+        '山东省交通运输厅': '政务平台', '浙江省交通运输厅': '政务平台',
+        '杭州市政府网': '政务平台', '江苏省政府网': '政务平台',
+        '南京市规划和自然资源局': '政务平台', '苏州市政府网': '政务平台',
+        '山西省政府网': '政务平台', '河南省政府网': '政务平台',
+        '从化区政府网': '政务平台', '广西交通投资集团': '政务平台',
+        '欧盟委员会': '国际/其他', 'Global Construction Review': '国际/其他',
+        'International Railway Journal': '国际/其他', 'UITP': '国际/其他',
+        'China Daily': '国际/其他', 'Vietnam.vn': '国际/其他',
+        'The Standard': '国际/其他', 'JR东日本': '国际/其他',
+        '美国联邦铁路管理局': '国际/其他', '新加坡LTA': '国际/其他',
+        '德国铁路DB': '国际/其他', '墨西哥城政府官网': '国际/其他',
+        '伦敦交通局': '国际/其他',
+        '百度百科': '其他',
+    };
+    function getMediaCategory(source) {
+        if (mediaCategoryMap[source]) return mediaCategoryMap[source];
+        for (const [key, category] of Object.entries(mediaCategoryMap)) {
+            if (source.includes(key) || key.includes(source)) return category;
         }
+        return '其他';
+    }
+    const colorPalette = ['#1a6a7a', '#c05a3a', '#2a6ab0', '#3a9a6a', '#8a5aaa', '#d08a2a', '#a06a5a', '#b84a6a'];
+    const catCount = {};
+    data.forEach(item => {
+        const source = getMediaName(item);
+        const category = getMediaCategory(source);
+        catCount[category] = (catCount[category] || 0) + 1;
+    });
+    const sortedCats = Object.entries(catCount).sort((a, b) => b[1] - a[1]);
+    const maxCat = sortedCats.length > 0 ? sortedCats[0][1] : 1;
+    const mediaChart = document.getElementById('mediaChart');
+    mediaChart.innerHTML = '<h3>📰 媒体来源分布（按类别）</h3>';
+    if (sortedCats.length === 0) {
+        mediaChart.innerHTML += '<div style="text-align:center;color:var(--muted);padding:20px;">暂无数据</div>';
+        return;
+    }
+    sortedCats.forEach(([category, count], index) => {
+        const pct = Math.round(count / maxCat * 100);
+        const color = colorPalette[index % colorPalette.length];
+        mediaChart.innerHTML += `
+            <div class="chart-bar-row">
+                <span class="chart-bar-label">${category}</span>
+                <div class="chart-bar-track">
+                    <div class="chart-bar-fill" style="width:${pct}%;background:${color};"></div>
+                </div>
+                <span class="chart-bar-n">${count}</span>
+            </div>
+        `;
+    });
+
+    // ===== 修改点：统计所有关键词（包括主体词和领域词） =====
+    const keywordCount = {};
+    data.forEach(item => {
+        const keywords = item.关键词 || [];
+        keywords.forEach(k => { keywordCount[k] = (keywordCount[k] || 0) + 1; });
+    });
+    const sortedKeywords = Object.entries(keywordCount).sort((a, b) => b[1] - a[1]).slice(0, 8);
+    const maxKeyword = sortedKeywords.length > 0 ? sortedKeywords[0][1] : 1;
+    const kwChart = document.getElementById('keywordChart');
+    kwChart.innerHTML = '<h3>🏷️ 领域关键词热度</h3>';
+    if (sortedKeywords.length === 0) {
+        kwChart.innerHTML += '<div style="text-align:center;color:var(--muted);padding:20px;">暂无数据</div>';
+        return;
+    }
+    sortedKeywords.forEach(([label, count], index) => {
+        const pct = Math.round(count / maxKeyword * 100);
+        const color = colorPalette[(index + 4) % colorPalette.length];
+        kwChart.innerHTML += `
+            <div class="chart-bar-row">
+                <span class="chart-bar-label">${label}</span>
+                <div class="chart-bar-track">
+                    <div class="chart-bar-fill" style="width:${pct}%;background:${color};"></div>
+                </div>
+                <span class="chart-bar-n">${count}</span>
+            </div>
+        `;
+    });
+}
 
         function generateQuarterlySummary(data) {
             if (!data || data.length === 0) return;
