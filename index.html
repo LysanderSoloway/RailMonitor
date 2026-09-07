@@ -1286,7 +1286,6 @@
     </div>
 
     <footer><p>轨道交通综合开发新闻报道监测 · 数据由小机器人每周一自动抓取</p></footer>
-
         <script>
         // ===== 全局变量 =====
         let allNewsData = [];
@@ -1948,18 +1947,18 @@
         // 统计卡片与图表
         // ============================================================
         function renderNews(data) {
-    // ===== 新增排序：按日期由新到旧 =====
-    data.sort((a, b) => b.日期.localeCompare(a.日期));
-    
-    allNewsData = data;
-    document.getElementById('totalCount').textContent = data.length;
-    document.getElementById('lastUpdate').textContent = new Date().toLocaleDateString('zh-CN');
-    currentPage = 1;
-    updateFavoriteBadge();
-    updateViewLabel();
-    renderArchive(data);
-    renderPage();
-}
+            // ===== 按日期降序排序（新到旧） =====
+            data.sort((a, b) => b.日期.localeCompare(a.日期));
+
+            allNewsData = data;
+            document.getElementById('totalCount').textContent = data.length;
+            document.getElementById('lastUpdate').textContent = new Date().toLocaleDateString('zh-CN');
+            currentPage = 1;
+            updateFavoriteBadge();
+            updateViewLabel();
+            renderArchive(data);
+            renderPage();
+        }
 
         function generateStats(data) {
             if (!data || data.length === 0) return;
@@ -2028,7 +2027,7 @@
             }, 200);
         }
 
-        // ===== 生成图表（含主体热度，领域关键词显示所有 AREAS） =====
+        // ===== 生成图表 =====
         function generateCharts(data) {
             if (!data || data.length === 0) return;
             const mediaCategoryMap = {
@@ -2117,9 +2116,8 @@
                 });
             }
 
-            // 领域关键词热度（显示所有 AREAS，即使计数为0）
+            // 领域关键词热度（显示所有 AREAS）
             const areaCount = {};
-            // 初始化所有 AREAS 为 0
             AREAS.forEach(a => { areaCount[a] = 0; });
             data.forEach(item => {
                 const rawKeywords = item.关键词 || [];
@@ -2131,7 +2129,6 @@
                     areaCount[a] = (areaCount[a] || 0) + 1;
                 });
             });
-            // 按计数降序排序，但保留所有词
             const sortedAreas = Object.entries(areaCount).sort((a, b) => b[1] - a[1]);
             const maxArea = sortedAreas.length > 0 ? sortedAreas[0][1] : 1;
             const kwChart = document.getElementById('keywordChart');
@@ -2154,7 +2151,7 @@
                 });
             }
 
-            // 主体关键词热度（使用 extractSubject）
+            // 主体关键词热度
             const subjectCount = { '国铁': 0, '铁路': 0, '城际': 0, '地铁': 0 };
             data.forEach(item => {
                 const subject = extractSubject(item.关键词 || []);
