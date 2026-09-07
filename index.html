@@ -1948,15 +1948,18 @@
         // 统计卡片与图表
         // ============================================================
         function renderNews(data) {
-            allNewsData = data;
-            document.getElementById('totalCount').textContent = data.length;
-            document.getElementById('lastUpdate').textContent = new Date().toLocaleDateString('zh-CN');
-            currentPage = 1;
-            updateFavoriteBadge();
-            updateViewLabel();
-            renderArchive(data);
-            renderPage();
-        }
+    // ===== 新增排序：按日期由新到旧 =====
+    data.sort((a, b) => b.日期.localeCompare(a.日期));
+    
+    allNewsData = data;
+    document.getElementById('totalCount').textContent = data.length;
+    document.getElementById('lastUpdate').textContent = new Date().toLocaleDateString('zh-CN');
+    currentPage = 1;
+    updateFavoriteBadge();
+    updateViewLabel();
+    renderArchive(data);
+    renderPage();
+}
 
         function generateStats(data) {
             if (!data || data.length === 0) return;
