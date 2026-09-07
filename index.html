@@ -1197,7 +1197,7 @@
             <div class="chart-panel" id="mediaChart"><h3>📰 媒体来源分布</h3></div>
             <div class="chart-panel" id="keywordChart"><h3>🏷️ 领域关键词热度</h3></div>
         </div>
-        <!-- 新增：主体关键词热度 -->
+        <!-- 主体关键词热度 -->
         <div class="chart-panel" id="subjectChart" style="grid-column: 1 / -1; margin-top: 16px;">
             <h3>🚄 主体关键词热度</h3>
             <div id="subjectChartContent"></div>
@@ -1577,7 +1577,6 @@
                     const scope = item.范围 || '全国';
                     const subject = extractSubject(item.关键词);
                     const areas = extractAreas(item.关键词);
-                    // 显示所有关键词（主体+领域）
                     const allKw = item.关键词 || [];
                     const kwTags = allKw.map(k => `<span class="type-tag-sm ${getKeywordClass(k)}">${k}</span>`).join(' ');
                     html += `
@@ -1693,7 +1692,6 @@
                 const keywords = item.关键词 || [];
                 const subject = extractSubject(keywords);
                 const subjectClass = getSubjectClass(subject);
-                // 关键词列显示所有关键词（主体词+领域词），用统一的标签样式
                 const kwHtml = keywords.map(k => `<span class="kw-tag ${getKeywordClass(k)}">${k}</span>`).join(' ');
                 const project = detectProject(item.标题 || '');
                 let trackBtn = '';
@@ -1991,7 +1989,7 @@
             }, 200);
         }
 
-        // ===== 生成图表（含主体热度） =====
+        // ===== 生成图表（含主体热度，领域关键词只统计 AREAS） =====
         function generateCharts(data) {
             if (!data || data.length === 0) return;
             const mediaCategoryMap = {
@@ -2050,6 +2048,7 @@
                 return '其他';
             }
             const colorPalette = ['#1a6a7a', '#c05a3a', '#2a6ab0', '#3a9a6a', '#8a5aaa', '#d08a2a', '#a06a5a', '#b84a6a'];
+
             // 媒体来源分布
             const catCount = {};
             data.forEach(item => {
@@ -2079,21 +2078,26 @@
                 });
             }
 
-            // 领域关键词热度（统计所有关键词）
-            const keywordCount = {};
+            // 领域关键词热度（只统计 AREAS 中的词）
+            const AREAS = ['规划', '城市设计', '建筑', '交通', '产业', '投融资', '招商', '运营', '站城融合', 'TOD', '获奖'];
+            const areaCount = {};
             data.forEach(item => {
                 const keywords = item.关键词 || [];
-                keywords.forEach(k => { keywordCount[k] = (keywordCount[k] || 0) + 1; });
+                keywords.forEach(k => {
+                    if (AREAS.includes(k)) {
+                        areaCount[k] = (areaCount[k] || 0) + 1;
+                    }
+                });
             });
-            const sortedKeywords = Object.entries(keywordCount).sort((a, b) => b[1] - a[1]).slice(0, 8);
-            const maxKeyword = sortedKeywords.length > 0 ? sortedKeywords[0][1] : 1;
+            const sortedAreas = Object.entries(areaCount).sort((a, b) => b[1] - a[1]).slice(0, 8);
+            const maxArea = sortedAreas.length > 0 ? sortedAreas[0][1] : 1;
             const kwChart = document.getElementById('keywordChart');
             kwChart.innerHTML = '<h3>🏷️ 领域关键词热度</h3>';
-            if (sortedKeywords.length === 0) {
+            if (sortedAreas.length === 0) {
                 kwChart.innerHTML += '<div style="text-align:center;color:var(--muted);padding:20px;">暂无数据</div>';
             } else {
-                sortedKeywords.forEach(([label, count], index) => {
-                    const pct = Math.round(count / maxKeyword * 100);
+                sortedAreas.forEach(([label, count], index) => {
+                    const pct = Math.round(count / maxArea * 100);
                     const color = colorPalette[(index + 4) % colorPalette.length];
                     kwChart.innerHTML += `
                         <div class="chart-bar-row">
@@ -2107,27 +2111,24 @@
                 });
             }
 
-            // === 新增：主体关键词热度（国铁、铁路、城际、地铁） ===
-            const subjectList = ['国铁', '铁路', '城际', '地铁'];
-            const subjectCount = {};
-            subjectList.forEach(s => { subjectCount[s] = 0; });
+            // 主体关键词热度（使用 extractSubject）
+            const subjectCount = { '国铁': 0, '铁路': 0, '城际': 0, '地铁': 0 };
             data.forEach(item => {
-                const keywords = item.关键词 || [];
-                keywords.forEach(k => {
-                    if (subjectList.includes(k)) {
-                        subjectCount[k] = (subjectCount[k] || 0) + 1;
-                    }
-                });
+                const subject = extractSubject(item.关键词 || []);
+                if (subjectCount[subject] !== undefined) {
+                    subjectCount[subject]++;
+                }
             });
-            const filteredSubjects = subjectList.filter(s => subjectCount[s] > 0);
-            const maxSubject = filteredSubjects.length > 0 ? Math.max(...filteredSubjects.map(s => subjectCount[s])) : 1;
+            const sortedSubjects = Object.entries(subjectCount)
+                .filter(([_, count]) => count > 0)
+                .sort((a, b) => b[1] - a[1]);
+            const maxSubject = sortedSubjects.length > 0 ? sortedSubjects[0][1] : 1;
             const subjectContainer = document.getElementById('subjectChartContent');
-            if (filteredSubjects.length === 0) {
+            if (sortedSubjects.length === 0) {
                 subjectContainer.innerHTML = '<div style="text-align:center;color:var(--muted);padding:20px;">暂无主体关键词数据</div>';
             } else {
                 let html = '';
-                filteredSubjects.forEach((label, index) => {
-                    const count = subjectCount[label];
+                sortedSubjects.forEach(([label, count], index) => {
                     const pct = Math.round(count / maxSubject * 100);
                     const color = colorPalette[(index + 2) % colorPalette.length];
                     html += `
@@ -2145,9 +2146,93 @@
         }
 
         function generateQuarterlySummary(data) {
-            // 与您原有代码保持一致（此处略，实际应保留）
-            // 为节省篇幅，此处省略，但您需要保留原有函数。
-            // 如果您需要，我可以一并提供，但原文件已有此函数。
+            if (!data || data.length === 0) return;
+            const qMap = {};
+            data.forEach(item => {
+                const date = item.日期 || '';
+                if (!date) return;
+                const parts = date.split('-');
+                if (parts.length < 2) return;
+                const year = parts[0];
+                const month = parseInt(parts[1], 10);
+                const q = Math.ceil(month / 3);
+                const key = `${year}年Q${q}`;
+                if (!qMap[key]) {
+                    qMap[key] = {
+                        count: 0,
+                        scopes: new Set(),
+                        titles: [],
+                        sources: [],
+                        subjects: [],
+                        areas: [],
+                        projects: new Map(),
+                    };
+                }
+                qMap[key].count++;
+                qMap[key].scopes.add(item.范围 || '全国');
+                if (item.来源) qMap[key].sources.push(getMediaName(item));
+                const subject = extractSubject(item.关键词 || []);
+                if (subject) qMap[key].subjects.push(subject);
+                const areas = extractAreas(item.关键词 || []);
+                areas.forEach(a => qMap[key].areas.push(a));
+                qMap[key].titles.push(item.标题 || '');
+                const title = item.标题 || '';
+                for (const [keyWord, projectName] of Object.entries(PROJECT_MAP)) {
+                    if (title.includes(keyWord)) {
+                        qMap[key].projects.set(projectName, '');
+                        break;
+                    }
+                }
+            });
+            const container = document.getElementById('quarterlyGrid');
+            container.innerHTML = '';
+            const sortedKeys = Object.keys(qMap).sort((a, b) => {
+                const ya = parseInt(a.split('年')[0]), yb = parseInt(b.split('年')[0]);
+                if (ya !== yb) return yb - ya;
+                const qa = parseInt(a.split('Q')[1]), qb = parseInt(b.split('Q')[1]);
+                return qb - qa;
+            });
+            const endings = [
+                '总体来看，本季度轨道交通综合开发呈现稳步推进态势。',
+                '整体而言，轨道交通综合开发各项工作有序推进。',
+                '综合来看，本季度行业发展态势良好，综合开发持续深化。',
+                '总的来看，轨道交通综合开发领域保持活跃发展势头。'
+            ];
+            sortedKeys.forEach((key, idx) => {
+                const d = qMap[key];
+                const scopes = Array.from(d.scopes);
+                let scopeStr = scopes.join('、');
+                const subjectCount = {};
+                d.subjects.forEach(s => { subjectCount[s] = (subjectCount[s] || 0) + 1; });
+                const topSubjects = Object.entries(subjectCount).sort((a, b) => b[1] - a[1]).slice(0, 2);
+                let subjectStr = topSubjects.map(([s]) => s).join('、') || '轨道交通';
+                const areaCount = {};
+                d.areas.forEach(a => { areaCount[a] = (areaCount[a] || 0) + 1; });
+                const topAreas = Object.entries(areaCount).sort((a, b) => b[1] - a[1]).slice(0, 3);
+                let areaStr = topAreas.map(([a]) => a).join('、') || '综合开发';
+                const projectNames = Array.from(d.projects.keys());
+                let projectStr = projectNames.length > 0 ? projectNames.slice(0, 2).join('、') : '';
+                const year = key.split('年')[0];
+                const quarterNum = key.replace(year + '年Q', '');
+                const quarterMap = {'1': '第一', '2': '第二', '3': '第三', '4': '第四'};
+                const quarterText = quarterMap[quarterNum] || quarterNum;
+                let summary = `${year}年${quarterText}季度，${scopeStr}轨道交通领域共收录${d.count}条新闻。`;
+                if (projectStr) {
+                    summary += ` 涉及${projectStr}等项目。`;
+                }
+                summary += ` ${subjectStr}是主要关注主体，${areaStr}是核心领域。`;
+                summary += ' ' + endings[idx % endings.length];
+                const div = document.createElement('div');
+                div.className = 'quarter-card';
+                div.innerHTML = `
+                    <div class="quarter-header">
+                        <span class="quarter-label">📊 ${key}</span>
+                        <span class="quarter-count">${d.count} 条</span>
+                    </div>
+                    <div class="quarter-summary-text">${summary}</div>
+                `;
+                container.appendChild(div);
+            });
         }
 
         // ============================================================
