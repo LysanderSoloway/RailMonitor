@@ -1576,9 +1576,12 @@
                     const type = item.类型 || '综合';
                     const scope = item.范围 || '全国';
                     const subject = extractSubject(item.关键词);
-                    const areas = extractAreas(item.关键词);
+                    // 只显示领域词
                     const allKw = item.关键词 || [];
-                    const kwTags = allKw.map(k => `<span class="type-tag-sm ${getKeywordClass(k)}">${k}</span>`).join(' ');
+                    const kwTags = allKw
+                        .filter(k => AREAS.includes(k))
+                        .map(k => `<span class="type-tag-sm ${getKeywordClass(k)}">${k}</span>`)
+                        .join(' ');
                     html += `
                         <div class="modal-timeline-item">
                             <div class="modal-timeline-date">${item.日期 || ''}</div>
@@ -1692,7 +1695,11 @@
                 const keywords = item.关键词 || [];
                 const subject = extractSubject(keywords);
                 const subjectClass = getSubjectClass(subject);
-                const kwHtml = keywords.map(k => `<span class="kw-tag ${getKeywordClass(k)}">${k}</span>`).join(' ');
+                // 只显示领域词
+                const kwHtml = keywords
+                    .filter(k => AREAS.includes(k))
+                    .map(k => `<span class="kw-tag ${getKeywordClass(k)}">${k}</span>`)
+                    .join(' ');
                 const project = detectProject(item.标题 || '');
                 let trackBtn = '';
                 if (project) {
@@ -1819,7 +1826,7 @@
                     '标题': cleanTitle(item.标题 || ''),
                     '链接': item.链接 || '#',
                     '来源': getMediaName(item),
-                    '关键词': (item.关键词 || []).join('、')
+                    '关键词': (item.关键词 || []).filter(k => AREAS.includes(k)).join('、')
                 }));
             } else {
                 if (!allNewsData || allNewsData.length === 0) { showToast('暂无数据可导出'); return; }
@@ -1830,7 +1837,7 @@
                     '标题': cleanTitle(item.标题 || ''),
                     '链接': item.链接 || '#',
                     '来源': getMediaName(item),
-                    '关键词': (item.关键词 || []).join('、')
+                    '关键词': (item.关键词 || []).filter(k => AREAS.includes(k)).join('、')
                 }));
             }
 
@@ -2079,7 +2086,6 @@
             }
 
             // 领域关键词热度（只统计 AREAS 中的词）
-            const AREAS = ['规划', '城市设计', '建筑', '交通', '产业', '投融资', '招商', '运营', '站城融合', 'TOD', '获奖'];
             const areaCount = {};
             data.forEach(item => {
                 const keywords = item.关键词 || [];
