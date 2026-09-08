@@ -126,20 +126,6 @@
     "pages": 3
   },
   {
-    "name": "国铁集团-新闻",
-    "url": "https://www.china-railway.com.cn",
-    "select": "div.news-list a",
-    "limit": 10,
-    "pages": 3
-  },
-  {
-    "name": "高铁网-高铁资讯",
-    "url": "https://news.gaotie.cn",
-    "select": "div.news-item a",
-    "limit": 10,
-    "pages": 3
-  },
-  {
     "name": "中国交通报-数字报",
     "url": "https://www.zgjtb.com",
     "select": "div.news-list a",
@@ -159,5 +145,42 @@
     "select": "div.news-item a",
     "limit": 8,
     "pages": 2
+  },
+
+  "===== 新增：结构简单的地铁/铁路公司官网 =====",
+  {
+    "name": "深圳地铁-公司新闻",
+    "url": "https://www.szmc.net/home/xinwenzhongxin/gongsixinwen/",
+    "select": "div.news-list a",
+    "limit": 10,
+    "pages": 3
+  },
+  {
+    "name": "苏州地铁-新闻中心",
+    "url": "https://www.sz-mtr.com/news/hot/",
+    "select": "div.news-list a",
+    "limit": 10,
+    "pages": 3
+  },
+  {
+    "name": "杭州地铁-轨道资讯",
+    "url": "https://www.hzmetro.com/news/",
+    "select": "ul.news-list a",
+    "limit": 10,
+    "pages": 3
+  },
+  {
+    "name": "重庆轨道交通-新闻中心",
+    "url": "https://www.cqmetro.cn/news/",
+    "select": "div.news-list a",
+    "limit": 10,
+    "pages": 3
+  },
+  {
+    "name": "北京地铁-新闻中心",
+    "url": "https://www.bjsubway.com/news/",
+    "select": "div.news-list a",
+    "limit": 10,
+    "pages": 3
   }
 ]
