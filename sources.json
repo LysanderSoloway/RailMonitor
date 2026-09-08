@@ -48,13 +48,12 @@
     "limit": 12,
     "pages": 1
   },
-
   {
     "name": "中国TOD网",
     "url": "https://www.chinatod.com.cn/index.php?m=content&c=index&a=lists&catid=36",
     "select": "div.list_box ul li a",
     "limit": 10,
-    "pages": 5
+    "pages": 4
   },
   {
     "name": "中国轨道交通网",
@@ -75,7 +74,7 @@
     "url": "https://td.gd.gov.cn/dtxw_n/gdjrxw/",
     "select": "ul.list li a",
     "limit": 10,
-    "pages": 5
+    "pages": 4
   },
   {
     "name": "广州市人民政府-交通频道",
@@ -96,48 +95,48 @@
     "url": "https://www.wenweipo.com/tag/%E8%BD%A8%E9%81%93%E4%BA%A4%E9%80%9A/",
     "select": "div.article-list a",
     "limit": 10,
-    "pages": 4
+    "pages": 3
   },
   {
     "name": "珠海市人民政府-交通",
     "url": "https://www.zhuhai.gov.cn/xw/xwzx/zhyw/",
     "select": "ul.list li a",
     "limit": 8,
-    "pages": 4
+    "pages": 3
   },
   {
     "name": "中国城市轨道交通协会-行业动态",
     "url": "https://www.camet.org.cn",
     "select": "div.news-list a",
     "limit": 10,
-    "pages": 5
+    "pages": 4
   },
   {
-    "name": "铁路工程建设网-新闻",
-    "url": "https://www.cncrcc.com/news/",
+    "name": "国家铁路局-新闻",
+    "url": "https://www.nra.gov.cn/xwzx",
     "select": "ul.list li a",
-    "limit": 8,
-    "pages": 4
+    "limit": 10,
+    "pages": 3
   },
   {
-    "name": "中华铁道网-铁路新闻",
-    "url": "http://www.chnrailway.com/news/",
-    "select": "div.news-item h3 a",
-    "limit": 8,
-    "pages": 4
-  },
-  {
-    "name": "世界轨道交通资讯网-新闻",
-    "url": "http://rail.ally.net.cn/news/",
+    "name": "交通运输部-交通要闻",
+    "url": "https://www.mot.gov.cn",
     "select": "div.news-list a",
-    "limit": 8,
-    "pages": 4
+    "limit": 10,
+    "pages": 3
   },
   {
-    "name": "中国铁路科技与经济信息网-资讯",
-    "url": "http://www.rail-info.com/news/",
-    "select": "ul.list a",
-    "limit": 8,
-    "pages": 4
+    "name": "国铁集团-新闻",
+    "url": "https://www.china-railway.com.cn",
+    "select": "div.news-list a",
+    "limit": 10,
+    "pages": 3
+  },
+  {
+    "name": "高铁网-高铁资讯",
+    "url": "https://news.gaotie.cn",
+    "select": "div.news-item a",
+    "limit": 10,
+    "pages": 3
   }
 ]
