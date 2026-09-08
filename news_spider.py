@@ -48,7 +48,9 @@ def fetch_news():
     
     new_count = 0
     session = requests.Session()
-    session.headers.update({'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'})
+    session.headers.update({
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+    })
     
     for src in sources:
         name = src.get('name', '未知')
@@ -63,17 +65,26 @@ def fetch_news():
         logging.info(f"🔍 抓取: {name}")
         
         for page in range(1, pages + 1):
-            page_url = base_url if page == 1 else base_url + (f'&page={page}' if '?' in base_url else f'?page={page}')
+            # 处理分页参数（简单拼接）
+            if page == 1:
+                page_url = base_url
+            else:
+                if '?' in base_url:
+                    page_url = base_url + f'&page={page}'
+                else:
+                    page_url = base_url + f'?page={page}'
             
             try:
                 resp = session.get(page_url, timeout=15)
                 if resp.status_code != 200:
+                    logging.warning(f"⚠️ {name} 第 {page} 页状态码 {resp.status_code}")
                     continue
                 
                 soup = BeautifulSoup(resp.text, 'html.parser')
                 items = soup.select(selector)
                 
                 if not items:
+                    logging.warning(f"⚠️ {name} 第 {page} 页无匹配元素")
                     continue
                 
                 count = 0
@@ -99,7 +110,7 @@ def fetch_news():
                         scope = "全国"
                         if "广州" in title:
                             scope = "广州市"
-                        elif any(w in title for w in ["广东", "深圳", "佛山", "东莞"]):
+                        elif any(w in title for w in ["广东", "深圳", "佛山", "东莞", "珠海", "中山", "汕头"]):
                             scope = "广东省"
                         
                         # 类型判断
@@ -135,7 +146,6 @@ def fetch_news():
                         if not keywords:
                             keywords = ["轨道"]
                         
-                        # ===== 关键改动：没有摘要字段！ =====
                         all_news.append({
                             "日期": datetime.now().strftime("%Y-%m-%d"),
                             "标题": title,
