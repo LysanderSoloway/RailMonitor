@@ -1,6 +1,6 @@
 [
   {
-    "name": "百度新闻",
+    "name": "百度新闻-TOD",
     "url": "https://news.baidu.com/s?tn=news&word=TOD",
     "select": "div.result a",
     "limit": 15,
@@ -65,6 +65,41 @@
   {
     "name": "人民铁道网",
     "url": "https://www.peoplerail.com/rail/show-474-1-1.html",
+    "select": "ul.list li a",
+    "limit": 8,
+    "pages": 1
+  },
+  {
+    "name": "广东交通（省交通运输厅）",
+    "url": "https://td.gd.gov.cn/dtxw_n/gdjrxw/",
+    "select": "ul.list li a",
+    "limit": 10,
+    "pages": 2
+  },
+  {
+    "name": "广州市人民政府-交通频道",
+    "url": "https://www.gz.gov.cn/zwfw/zxfw/jtfw/",
+    "select": "div.news-list a",
+    "limit": 10,
+    "pages": 2
+  },
+  {
+    "name": "深圳市交通运输局-新闻",
+    "url": "https://www.sz.gov.cn/ztfw/jtly/wyk_184755/",
+    "select": "div.content ul li a",
+    "limit": 10,
+    "pages": 2
+  },
+  {
+    "name": "香港文汇报-轨道交通标签",
+    "url": "https://www.wenweipo.com/tag/%E8%BD%A8%E9%81%93%E4%BA%A4%E9%80%9A/",
+    "select": "div.article-list a",
+    "limit": 10,
+    "pages": 2
+  },
+  {
+    "name": "珠海市人民政府-交通",
+    "url": "https://www.zhuhai.gov.cn/xw/xwzx/zhyw/",
     "select": "ul.list li a",
     "limit": 8,
     "pages": 1
