@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-python@v5
         with:
@@ -21,22 +23,26 @@ jobs:
       - name: 运行爬虫
         run: python news_spider.py
 
-      - name: 检查并提交（只有文件变大才提交）
+      - name: 检查并提交
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
           
-          OLD_LINES=$(git show HEAD:news_data.json 2>/dev/null | wc -l || echo "0")
-          NEW_LINES=$(cat news_data.json 2>/dev/null | wc -l || echo "0")
+          # ⚠️ 核心修复 1：使用 PAT_TOKEN 代替 GITHUB_TOKEN
+          git remote set-url origin https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/${{ github.repository }}.git
           
-          if [ "$NEW_LINES" -le "$OLD_LINES" ]; then
-            echo "📭 文件没有变大，无新增数据，跳过提交"
-            git checkout -- news_data.json
+          # 判断文件是否有实际变更
+          if git diff --quiet news_data.json; then
+            echo "📭 文件没有变化，跳过提交"
             exit 0
           fi
           
           git add news_data.json
           git commit -m "🤖 增量追加新闻 $(date +'%Y-%m-%d')"
+          
+          # ⚠️ 核心修复 2：拉取远程最新代码以防冲突
+          git pull --rebase origin main
+          
+          # ⚠️ 核心修复 3：推送
           git push
           echo "✅ 已提交新增数据"
