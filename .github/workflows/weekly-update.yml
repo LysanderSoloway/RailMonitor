@@ -8,6 +8,8 @@ on:
 jobs:
   update:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # 赋予 Action 写入权限
     steps:
       - uses: actions/checkout@v4
         with:
@@ -28,21 +30,16 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           
-          # ⚠️ 核心修复 1：使用 PAT_TOKEN 代替 GITHUB_TOKEN
+          # 必须用 PAT_TOKEN 认证，不要用 GITHUB_TOKEN
           git remote set-url origin https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/${{ github.repository }}.git
           
-          # 判断文件是否有实际变更
           if git diff --quiet news_data.json; then
-            echo "📭 文件没有变化，跳过提交"
+            echo "📭 没有新数据，跳过提交"
             exit 0
           fi
           
           git add news_data.json
           git commit -m "🤖 增量追加新闻 $(date +'%Y-%m-%d')"
-          
-          # ⚠️ 核心修复 2：拉取远程最新代码以防冲突
           git pull --rebase origin main
-          
-          # ⚠️ 核心修复 3：推送
           git push
           echo "✅ 已提交新增数据"
